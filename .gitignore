@@ -24,6 +24,26 @@ application/config/database.php
 application/config/superadmin.php
 CLAUDE.md
 
+# Dev/deploy scripts with credentials
+*.py
+*.ps1
+CLOUDDEVELPOMENT .txt
+Address details .txt
+README.txt
+New Reu.txt
+cancel_bill.php
+debug_check.php
+ncg_database.php
+po_setup.php
+shopssh.txt
+ssh.txt
+audit_check.txt
+auditreports.txt
+barcode_recheck.txt
+cancel invoice.txt
+alter_grn.php
+application/controllers/DataReset.php
+
 # Exports & backups
 *.sql
 backups/
