@@ -1,0 +1,30 @@
+# Dependencies
+/vendor/
+
+# Temp & cache
+/application/cache/*
+!/application/cache/index.html
+/application/logs/*
+!/application/logs/index.html
+assets/tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Sensitive config (use .example files)
+application/config/database.php
+application/config/superadmin.php
+CLAUDE.md
+
+# Exports & backups
+*.sql
+backups/
+scratch/

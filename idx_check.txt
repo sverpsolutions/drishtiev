@@ -1,0 +1,50 @@
+==== products ====
+Table	Non_unique	Key_name	Seq_in_index	Column_name	Collation	Cardinality	Sub_part	Packed	Null	Index_type	Comment	Index_comment	Ignored
+products	0	PRIMARY	1	id	A	7695	NULL	NULL		BTREE			NO
+products	1	idx_category	1	category	A	24	NULL	NULL		BTREE			NO
+products	1	idx_brand	1	brand	A	320	NULL	NULL	YES	BTREE			NO
+products	1	idx_products_item_code	1	item_code	A	7695	NULL	NULL	YES	BTREE			NO
+products	1	idx_products_status	1	status	A	1	NULL	NULL		BTREE			NO
+
+==== product_barcodes ====
+Table	Non_unique	Key_name	Seq_in_index	Column_name	Collation	Cardinality	Sub_part	Packed	Null	Index_type	Comment	Index_comment	Ignored
+product_barcodes	0	PRIMARY	1	id	A	0	NULL	NULL		BTREE			NO
+product_barcodes	1	idx_barcode	1	barcode	A	0	NULL	NULL		BTREE			NO
+product_barcodes	1	idx_product	1	product_id	A	0	NULL	NULL		BTREE			NO
+
+==== plu_master ====
+Table	Non_unique	Key_name	Seq_in_index	Column_name	Collation	Cardinality	Sub_part	Packed	Null	Index_type	Comment	Index_comment	Ignored
+plu_master	0	PRIMARY	1	id	A	0	NULL	NULL		BTREE			NO
+plu_master	0	plu_code	1	plu_code	A	0	NULL	NULL		BTREE			NO
+plu_master	1	idx_product	1	product_id	A	0	NULL	NULL		BTREE			NO
+plu_master	1	idx_barcode	1	barcode	A	0	NULL	NULL	YES	BTREE			NO
+plu_master	1	idx_status	1	status	A	0	NULL	NULL		BTREE			NO
+plu_master	1	idx_location	1	location_id	A	0	NULL	NULL	YES	BTREE			NO
+plu_master	1	idx_plu_barcode_status	1	barcode	A	0	NULL	NULL	YES	BTREE			NO
+plu_master	1	idx_plu_barcode_status	2	status	A	0	NULL	NULL		BTREE			NO
+plu_master	1	idx_plu_product_status	1	product_id	A	0	NULL	NULL		BTREE			NO
+plu_master	1	idx_plu_product_status	2	status	A	0	NULL	NULL		BTREE			NO
+
+==== invoices ====
+Table	Non_unique	Key_name	Seq_in_index	Column_name	Collation	Cardinality	Sub_part	Packed	Null	Index_type	Comment	Index_comment	Ignored
+invoices	0	PRIMARY	1	id	A	7	NULL	NULL		BTREE			NO
+invoices	0	invoice_no	1	invoice_no	A	7	NULL	NULL		BTREE			NO
+invoices	1	created_by	1	created_by	A	2	NULL	NULL		BTREE			NO
+invoices	1	idx_customer	1	customer_id	A	2	NULL	NULL		BTREE			NO
+invoices	1	idx_invoice_date	1	invoice_date	A	1	NULL	NULL		BTREE			NO
+invoices	1	idx_status	1	status	A	2	NULL	NULL		BTREE			NO
+invoices	1	idx_offline_ref	1	offline_ref	A	2	NULL	NULL	YES	BTREE			NO
+
+==== invoice_items ====
+Table	Non_unique	Key_name	Seq_in_index	Column_name	Collation	Cardinality	Sub_part	Packed	Null	Index_type	Comment	Index_comment	Ignored
+invoice_items	0	PRIMARY	1	id	A	24	NULL	NULL		BTREE			NO
+invoice_items	1	idx_invoice	1	invoice_id	A	6	NULL	NULL		BTREE			NO
+invoice_items	1	idx_product_id	1	product_id	A	12	NULL	NULL		BTREE			NO
+
+==== customers ====
+Table	Non_unique	Key_name	Seq_in_index	Column_name	Collation	Cardinality	Sub_part	Packed	Null	Index_type	Comment	Index_comment	Ignored
+customers	0	PRIMARY	1	id	A	3	NULL	NULL		BTREE			NO
+customers	1	idx_type	1	type	A	1	NULL	NULL		BTREE			NO
+customers	1	idx_phone	1	phone	A	3	NULL	NULL		BTREE			NO
+customers	1	idx_customers_portal_token	1	portal_token	A	1	NULL	NULL	YES	BTREE			NO
+

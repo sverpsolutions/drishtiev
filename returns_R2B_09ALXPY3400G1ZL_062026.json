@@ -1,0 +1,230 @@
+{
+    "data": {
+        "itcsumm": {
+            "itcavl": {
+                "nonrevsup": {
+                    "sgst": 1320.93,
+                    "b2b": {
+                        "sgst": 1320.93,
+                        "txval": 36329.04,
+                        "cgst": 1320.93,
+                        "cess": 0,
+                        "igst": 3897.36
+                    },
+                    "cgst": 1320.93,
+                    "cess": 0,
+                    "igst": 3897.36
+                }
+            }
+        },
+        "rtnprd": "062026",
+        "docdata": {
+            "b2b": [
+                {
+                    "inv": [
+                        {
+                            "val": 17319,
+                            "sgst": 1320.93,
+                            "rev": "N",
+                            "itcavl": "Y",
+                            "txval": 14677,
+                            "typ": "R",
+                            "cgst": 1320.93,
+                            "inum": "70",
+                            "rsn": "",
+                            "cess": 0,
+                            "igst": 0,
+                            "dt": "11-06-2026",
+                            "imsStatus": "N",
+                            "pos": "09"
+                        }
+                    ],
+                    "trdnm": "SYNC INFOSYS",
+                    "supfildt": "13-07-2026",
+                    "supprd": "062026",
+                    "ctin": "09DKIPP0904H1Z3"
+                },
+                {
+                    "inv": [
+                        {
+                            "val": 4000,
+                            "sgst": 0,
+                            "rev": "N",
+                            "itcavl": "Y",
+                            "txval": 3389.83,
+                            "typ": "R",
+                            "cgst": 0,
+                            "inum": "YI/2026-27/230",
+                            "rsn": "",
+                            "cess": 0,
+                            "igst": 610.17,
+                            "dt": "02-06-2026",
+                            "imsStatus": "N",
+                            "pos": "09"
+                        }
+                    ],
+                    "trdnm": "YASHIKA INFOTECH",
+                    "supfildt": "10-07-2026",
+                    "supprd": "062026",
+                    "ctin": "07GUGPK6533N1Z1"
+                },
+                {
+                    "inv": [
+                        {
+                            "val": 3400,
+                            "sgst": 0,
+                            "rev": "N",
+                            "itcavl": "Y",
+                            "txval": 2881.36,
+                            "typ": "R",
+                            "cgst": 0,
+                            "inum": "BSM/26-27/5605",
+                            "rsn": "",
+                            "cess": 0,
+                            "igst": 518.64,
+                            "dt": "12-06-2026",
+                            "imsStatus": "N",
+                            "pos": "09"
+                        },
+                        {
+                            "val": 650,
+                            "sgst": 0,
+                            "rev": "N",
+                            "itcavl": "Y",
+                            "txval": 550.85,
+                            "typ": "R",
+                            "cgst": 0,
+                            "inum": "BSM/26-27/6778",
+                            "rsn": "",
+                            "cess": 0,
+                            "igst": 99.15,
+                            "dt": "27-06-2026",
+                            "imsStatus": "N",
+                            "pos": "09"
+                        }
+                    ],
+                    "trdnm": "BANSAL STANMART (INDIA) PRIVATE LIMITED",
+                    "supfildt": "10-07-2026",
+                    "supprd": "062026",
+                    "ctin": "07AABCB5287G1ZN"
+                },
+                {
+                    "inv": [
+                        {
+                            "val": 11835,
+                            "sgst": 0,
+                            "rev": "N",
+                            "itcavl": "Y",
+                            "txval": 10030,
+                            "typ": "R",
+                            "cgst": 0,
+                            "inum": "IGST/26-27/0579",
+                            "rsn": "",
+                            "cess": 0,
+                            "igst": 1805.4,
+                            "dt": "20-06-2026",
+                            "imsStatus": "N",
+                            "pos": "09"
+                        }
+                    ],
+                    "trdnm": "EASYSHOP MARKETING PRIVATE LIMITED",
+                    "supfildt": "11-07-2026",
+                    "supprd": "062026",
+                    "ctin": "07AADCE6423F1ZW"
+                },
+                {
+                    "inv": [
+                        {
+                            "val": 5664,
+                            "sgst": 0,
+                            "rev": "N",
+                            "itcavl": "Y",
+                            "txval": 4800,
+                            "typ": "R",
+                            "cgst": 0,
+                            "inum": "VR/26-27/0788",
+                            "rsn": "",
+                            "cess": 0,
+                            "igst": 864,
+                            "dt": "06-06-2026",
+                            "imsStatus": "N",
+                            "pos": "09"
+                        }
+                    ],
+                    "trdnm": "VR SALES",
+                    "supfildt": "09-07-2026",
+                    "supprd": "062026",
+                    "ctin": "07AAQFV5797B1ZL"
+                }
+            ]
+        },
+        "gendt": "14-07-2026",
+        "gstin": "09ALXPY3400G1ZL",
+        "version": "1.0",
+        "cpsumm": {
+            "b2b": [
+                {
+                    "sgst": 1320.93,
+                    "ttldocs": 1,
+                    "trdnm": "SYNC INFOSYS",
+                    "supprd": "062026",
+                    "supfildt": "13-07-2026",
+                    "txval": 14677,
+                    "ctin": "09DKIPP0904H1Z3",
+                    "cgst": 1320.93,
+                    "cess": 0,
+                    "igst": 0
+                },
+                {
+                    "sgst": 0,
+                    "ttldocs": 1,
+                    "trdnm": "YASHIKA INFOTECH",
+                    "supprd": "062026",
+                    "supfildt": "10-07-2026",
+                    "txval": 3389.83,
+                    "ctin": "07GUGPK6533N1Z1",
+                    "cgst": 0,
+                    "cess": 0,
+                    "igst": 610.17
+                },
+                {
+                    "sgst": 0,
+                    "ttldocs": 2,
+                    "trdnm": "BANSAL STANMART (INDIA) PRIVATE LIMITED",
+                    "supprd": "062026",
+                    "supfildt": "10-07-2026",
+                    "txval": 3432.21,
+                    "ctin": "07AABCB5287G1ZN",
+                    "cgst": 0,
+                    "cess": 0,
+                    "igst": 617.79
+                },
+                {
+                    "sgst": 0,
+                    "ttldocs": 1,
+                    "trdnm": "EASYSHOP MARKETING PRIVATE LIMITED",
+                    "supprd": "062026",
+                    "supfildt": "11-07-2026",
+                    "txval": 10030,
+                    "ctin": "07AADCE6423F1ZW",
+                    "cgst": 0,
+                    "cess": 0,
+                    "igst": 1805.4
+                },
+                {
+                    "sgst": 0,
+                    "ttldocs": 1,
+                    "trdnm": "VR SALES",
+                    "supprd": "062026",
+                    "supfildt": "09-07-2026",
+                    "txval": 4800,
+                    "ctin": "07AAQFV5797B1ZL",
+                    "cgst": 0,
+                    "cess": 0,
+                    "igst": 864
+                }
+            ]
+        }
+    },
+    "chksum": "eb62f27a9c8d8ef64bdb68e2baf175323a91facd0c628e22ed79c1daa9dc7585"
+}

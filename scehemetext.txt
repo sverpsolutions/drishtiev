@@ -1,0 +1,1296 @@
+# SUPER PROMPT: BUILD A UNIVERSAL SUPERMARKET SCHEME ENGINE
+
+You are a senior retail ERP/POS architect and full-stack developer.
+
+I am building a supermarket/FMCG retail management system. Create a **production-ready Universal Scheme Management & Scheme Calculation Engine** that can support simple as well as advanced supermarket promotional schemes.
+
+The system must be designed so that new scheme types can be added later without rewriting the billing engine.
+
+---
+
+# 1. OBJECTIVE
+
+Build a centralized **Scheme Engine** that:
+
+* Creates and manages promotional schemes
+* Automatically identifies eligible schemes during billing
+* Calculates the best applicable benefit
+* Supports product, category, brand, customer, store and bill-level schemes
+* Handles quantity and value slabs
+* Supports Buy X Get Y
+* Supports Combo and Mix & Match
+* Supports free gifts
+* Supports coupons/vouchers
+* Supports time/date-based schemes
+* Supports supplier-funded schemes
+* Supports loyalty-point eligibility
+* Prevents incorrect stacking of schemes
+* Shows scheme details clearly on POS bills
+* Maintains complete audit history
+* Provides scheme performance reports
+
+Do NOT hard-code promotional logic inside POS billing.
+
+Create a separate reusable:
+
+`SCHEME ENGINE`
+
+that can be called by:
+
+* POS Billing
+* E-commerce
+* Mobile App
+* Customer Portal
+* Order Management
+* Reports
+* Loyalty System
+
+---
+
+# 2. SCHEME TYPES
+
+The system must support at minimum:
+
+## A. PRICE/DISCOUNT SCHEMES
+
+1. Flat Percentage Discount
+
+Example:
+10% off
+
+2. Flat Amount Discount
+
+Example:
+₹50 off
+
+3. Fixed Promotional Price
+
+Example:
+Normal price ₹150
+Scheme price ₹99
+
+4. Quantity Slab
+
+Example:
+
+1–2 Qty = ₹100 each
+3–5 Qty = ₹90 each
+6+ Qty = ₹80 each
+
+5. Value Slab
+
+Example:
+
+Bill/Product Value ₹500 → ₹25 off
+₹1,000 → ₹75 off
+₹2,000 → ₹200 off
+
+---
+
+# 3. BUY X GET Y
+
+Support:
+
+* Buy 1 Get 1
+* Buy 2 Get 1
+* Buy 3 Get 1
+* Buy X Get Y
+* Buy X Get Y Free
+* Buy X Get Y at fixed price
+* Buy X Get Y at percentage discount
+
+Example:
+
+Buy 2 Shampoo
+Get 1 Shampoo Free
+
+Example:
+
+Buy 2
+Get 1 at ₹10
+
+Example:
+
+Buy 3
+Get 1 at 50% off
+
+Important:
+
+For "Get Y Free", calculate the free quantity correctly.
+
+If multiple eligible products exist, provide configurable selection:
+
+* Cheapest item free
+* Most expensive item free
+* Specific item free
+* Same SKU only
+* Selected SKU list
+
+---
+
+# 4. COMBO SCHEME
+
+Example:
+
+Bread + Butter + Jam = ₹199
+
+The engine must verify that all required products are present.
+
+Support:
+
+* Fixed combination
+* Multiple alternatives
+* Minimum quantity
+* Maximum quantity
+* Multiple combo repetitions
+
+Example:
+
+2 Bread
++
+1 Butter
++
+1 Jam
+
+Combo Price = ₹299
+
+If customer buys 2 complete combos:
+
+Benefit must apply twice.
+
+---
+
+# 5. MIX & MATCH
+
+Example:
+
+"Any 3 products from selected products = ₹299"
+
+Eligible products:
+
+* Product A
+* Product B
+* Product C
+* Product D
+* Product E
+
+Customer can choose any 3.
+
+Support:
+
+* Any X for ₹Y
+* Any X with X% discount
+* Any X get cheapest free
+* Any X get fixed discount
+
+Example:
+
+Any 3 Personal Care products = ₹499
+
+---
+
+# 6. CATEGORY SCHEMES
+
+Allow scheme application based on:
+
+* Department
+* Category
+* Subcategory
+* Brand
+* Product Group
+* Product Class
+
+Example:
+
+Personal Care = 10% OFF
+
+Beverages = 5% OFF
+
+---
+
+# 7. BRAND SCHEMES
+
+Example:
+
+Brand ABC:
+
+Buy ₹1,000 → Get ₹100 discount
+
+or:
+
+10% OFF on Brand ABC
+
+---
+
+# 8. BILL LEVEL SCHEMES
+
+Example:
+
+Bill ≥ ₹1,000 → ₹50 off
+
+Bill ≥ ₹2,000 → ₹150 off
+
+Bill ≥ ₹5,000 → ₹500 off
+
+Support:
+
+* Minimum bill amount
+* Maximum bill amount
+* Percentage discount
+* Fixed discount
+* Gift
+* Coupon
+* Loyalty bonus
+
+---
+
+# 9. PAYMENT METHOD SCHEMES
+
+Support schemes based on:
+
+* Cash
+* Credit Card
+* Debit Card
+* UPI
+* Wallet
+* Specific bank
+* Specific card BIN
+* Specific payment provider
+
+Example:
+
+Pay using HDFC Card
+and get 10% off
+Maximum discount ₹500.
+
+IMPORTANT:
+
+Payment-based discount should be calculated only after eligible payment method is selected.
+
+---
+
+# 10. CUSTOMER-BASED SCHEMES
+
+Support:
+
+* All customers
+* Registered customers
+* Loyalty members
+* VIP customers
+* Corporate customers
+* Staff
+* Customer groups
+* Specific customer
+* New customer
+* Returning customer
+
+Example:
+
+VIP customer → Extra 5%
+
+---
+
+# 11. LOYALTY POINTS
+
+Scheme Engine must integrate with Loyalty Engine.
+
+Each scheme should have:
+
+`ALLOW_LOYALTY_POINTS = YES/NO`
+
+Also support:
+
+* Normal points
+* Bonus points
+* Extra points
+* No points on discounted items
+* No points on scheme items
+* No points on selected categories
+* No points on selected brands
+* No points on selected SKUs
+
+Example:
+
+Product ₹1,000
+Scheme discount ₹100
+
+Net = ₹900
+
+If scheme says no loyalty points:
+
+Points = 0
+
+If points are based on net value:
+
+Points calculated on ₹900.
+
+---
+
+# 12. EXCLUDED PRODUCTS
+
+Every scheme must allow exclusions.
+
+Exclude:
+
+* SKU
+* Brand
+* Category
+* Supplier
+* Product class
+* Scheme items
+* Clearance items
+* Already discounted items
+
+Example:
+
+"10% Personal Care"
+
+But exclude:
+
+* Product A
+* Product B
+* Product C
+
+---
+
+# 13. SCHEME STACKING
+
+This is extremely important.
+
+Every scheme must contain:
+
+`ALLOW_STACKING`
+
+Options:
+
+* No stacking
+* Stack with product discount
+* Stack with bill discount
+* Stack with loyalty benefit
+* Stack with coupon
+* Stack with payment offer
+
+Example:
+
+Product discount 10%
++
+Bill discount ₹100
+
+The engine must determine whether both are allowed.
+
+Create a scheme priority system:
+
+1. Product-level
+2. Quantity scheme
+3. Combo
+4. Category
+5. Brand
+6. Bill-level
+7. Coupon
+8. Payment offer
+9. Loyalty benefit
+
+But do NOT assume this priority is universal.
+
+Make priority configurable.
+
+---
+
+# 14. BEST SCHEME SELECTION
+
+If multiple schemes are eligible, the engine should calculate all valid schemes and determine:
+
+* Best customer benefit
+* Best margin protection
+* Highest priority scheme
+* Non-stackable conflict
+
+Example:
+
+Product A:
+
+Scheme 1 = ₹50 discount
+Scheme 2 = ₹70 discount
+
+System should identify:
+
+Best Benefit = ₹70
+
+But if Scheme 1 has higher priority, allow configurable priority rules.
+
+Provide:
+
+`SCHEME_SELECTION_MODE`
+
+Options:
+
+* BEST_CUSTOMER_BENEFIT
+* HIGHEST_PRIORITY
+* BEST_MARGIN
+* FIRST_MATCH
+* MANUAL_SELECTION
+
+Default:
+
+`BEST_CUSTOMER_BENEFIT`
+
+---
+
+# 15. MARGIN PROTECTION
+
+Do not allow schemes to accidentally sell products below configured margin unless explicitly permitted.
+
+Scheme should support:
+
+* Minimum selling price
+* Minimum margin %
+* Minimum margin amount
+* Cost-price protection
+
+Example:
+
+Cost = ₹80
+
+Normal Selling Price = ₹100
+
+Scheme cannot reduce selling price below ₹85 if minimum margin rule is active.
+
+---
+
+# 16. DATE & TIME VALIDITY
+
+Every scheme must support:
+
+* Start date
+* End date
+* Start time
+* End time
+* Days of week
+
+Example:
+
+Monday–Friday
+4 PM–7 PM
+
+Happy Hour Scheme.
+
+Also support:
+
+* Festival schemes
+* Seasonal schemes
+* Weekend schemes
+
+---
+
+# 17. STORE/LOCATION CONTROL
+
+Each scheme should allow:
+
+* All stores
+* Selected stores
+* Region
+* Warehouse
+* Online only
+* POS only
+
+Example:
+
+Scheme applies only:
+
+Pitampura
+Rohini
+Noida
+
+---
+
+# 18. SUPPLIER-FUNDED SCHEME
+
+Support supplier-funded promotions.
+
+Example:
+
+Supplier gives ₹20 per unit support.
+
+Customer discount = ₹20
+
+The system must track:
+
+Customer Discount
+Supplier Contribution
+Company Contribution
+
+Example:
+
+Selling Price = ₹100
+
+Customer pays = ₹80
+
+Supplier contribution = ₹15
+
+Company contribution = ₹5
+
+Reports must show these separately.
+
+---
+
+# 19. COUPON/VOUCHER SCHEME
+
+Support:
+
+* Coupon code
+* Voucher code
+* QR code
+* Barcode
+* Customer-specific coupon
+* One-time coupon
+* Multiple-use coupon
+* Expiry date
+* Minimum bill
+* Maximum discount
+* Usage limit
+
+Example:
+
+SAVE100
+
+Minimum Bill = ₹1,000
+
+Discount = ₹100
+
+Maximum use = 1 per customer.
+
+---
+
+# 20. FREE GIFT SCHEME
+
+Example:
+
+Bill ≥ ₹2,000
+
+Gift:
+
+1 Mug
+
+or
+
+1 Chocolate
+
+Support:
+
+* Fixed gift
+* Multiple gift options
+* Customer selection
+* Cheapest gift
+* Specific SKU
+
+Gift inventory must be reduced automatically.
+
+---
+
+# 21. SCHEME LIMITS
+
+Support:
+
+* Maximum benefit per bill
+* Maximum quantity
+* Maximum discount
+* Maximum uses per customer
+* Maximum uses per day
+* Maximum uses per store
+* Total campaign limit
+
+Example:
+
+10% discount
+
+Maximum ₹500 per bill.
+
+---
+
+# 22. SCHEME MASTER DATABASE
+
+Create proper database structure.
+
+Suggested tables:
+
+`SCHEME_MASTER`
+
+Fields:
+
+* SCHEME_ID
+* SCHEME_CODE
+* SCHEME_NAME
+* SCHEME_TYPE
+* DESCRIPTION
+* START_DATE
+* END_DATE
+* START_TIME
+* END_TIME
+* PRIORITY
+* STATUS
+* ALLOW_STACKING
+* ALLOW_LOYALTY_POINTS
+* MIN_BILL_VALUE
+* MAX_BILL_VALUE
+* MAX_DISCOUNT
+* MAX_USAGE
+* CUSTOMER_TYPE
+* STORE_SCOPE
+* CREATED_BY
+* CREATED_DATE
+* APPROVED_BY
+* APPROVED_DATE
+
+Create additional tables:
+
+`SCHEME_PRODUCTS`
+
+`SCHEME_CATEGORIES`
+
+`SCHEME_BRANDS`
+
+`SCHEME_CUSTOMERS`
+
+`SCHEME_STORES`
+
+`SCHEME_TIERS`
+
+`SCHEME_COMBO_ITEMS`
+
+`SCHEME_MIX_MATCH_ITEMS`
+
+`SCHEME_EXCLUSIONS`
+
+`SCHEME_COUPONS`
+
+`SCHEME_GIFTS`
+
+`SCHEME_PAYMENT_METHODS`
+
+`SCHEME_LOYALTY_RULES`
+
+`SCHEME_SUPPLIER_CONTRIBUTION`
+
+`SCHEME_USAGE`
+
+`SCHEME_TRANSACTION_LOG`
+
+---
+
+# 23. SCHEME VERSIONING
+
+Do not overwrite important historical scheme data.
+
+If a scheme is changed after it has been used:
+
+Create a new version.
+
+Maintain:
+
+`SCHEME_VERSION`
+
+Old bills must always retain the original scheme calculation.
+
+---
+
+# 24. POS BILLING FLOW
+
+When cashier scans an item:
+
+1. Read SKU
+2. Get product details
+3. Get active schemes
+4. Check date/time
+5. Check store
+6. Check customer eligibility
+7. Check quantity
+8. Check exclusions
+9. Calculate eligible schemes
+10. Check stacking rules
+11. Calculate benefit
+12. Select applicable scheme
+13. Apply discount
+14. Calculate loyalty eligibility
+15. Show scheme on POS
+16. Save scheme ID against bill line
+
+Do not calculate schemes only at the end of the bill.
+
+However, bill-level schemes must be recalculated whenever cart contents change.
+
+---
+
+# 25. BILL LINE DATA
+
+Every bill line should retain:
+
+* SKU
+* Qty
+* MRP
+* Selling Price
+* Scheme ID
+* Scheme Name
+* Discount
+* Free Qty
+* Scheme Benefit
+* Supplier Contribution
+* Company Contribution
+* Loyalty Points Eligible
+* Loyalty Points Earned
+
+This is required for audit and reporting.
+
+---
+
+# 26. BILL PRINTING
+
+Bill should clearly show:
+
+Product A        ₹500
+Scheme Discount  -₹50
+
+Net              ₹450
+
+Also show summary:
+
+Total Savings: ₹150
+
+Schemes Applied:
+
+BUY2GET1
+PERSONALCARE10
+SAVE100
+
+Do not print unnecessary internal technical information.
+
+---
+
+# 27. POS UI
+
+Create a professional Scheme Management screen.
+
+Sections:
+
+### Scheme Master
+
+* Scheme Code
+* Scheme Name
+* Scheme Type
+* Description
+* Validity
+* Status
+
+### Conditions
+
+* Product
+* Category
+* Brand
+* Quantity
+* Bill Value
+* Customer
+* Store
+* Payment Method
+
+### Benefit
+
+* Percentage
+* Fixed Amount
+* Fixed Price
+* Free Item
+* Points
+* Gift
+
+### Restrictions
+
+* Exclusions
+* Stacking
+* Maximum Discount
+* Maximum Usage
+
+### Approval
+
+* Created By
+* Approved By
+* Approval Date
+
+---
+
+# 28. SCHEME SIMULATION TOOL
+
+Create a very important feature:
+
+`Scheme Simulator`
+
+User enters:
+
+Customer
+Store
+Products
+Quantity
+Payment Method
+
+System shows:
+
+| Scheme | Eligible | Benefit | Stackable | Final |
+| ------ | -------- | ------: | --------- | ----- |
+
+This allows management to test schemes before publishing them.
+
+---
+
+# 29. SCHEME CONFLICT DETECTION
+
+Before activating a scheme, system should check for conflicts.
+
+Examples:
+
+Two schemes with same product and same date.
+
+Two non-stackable schemes.
+
+Overlapping quantity slabs.
+
+Overlapping fixed-price schemes.
+
+Conflicting loyalty rules.
+
+Show warning:
+
+"Potential scheme conflict detected."
+
+Do not automatically reject unless configured.
+
+---
+
+# 30. APPROVAL WORKFLOW
+
+Scheme creation:
+
+`DRAFT`
+
+↓
+
+`SUBMITTED`
+
+↓
+
+`APPROVED`
+
+↓
+
+`ACTIVE`
+
+↓
+
+`EXPIRED`
+
+or
+
+`CANCELLED`
+
+Only approved schemes can become active.
+
+---
+
+# 31. REPORTS
+
+Create these reports:
+
+### Scheme Performance
+
+* Scheme
+* Bills
+* Qty
+* Gross Sales
+* Discount
+* Net Sales
+* Customer Savings
+* Supplier Contribution
+* Company Contribution
+
+### Product Scheme Report
+
+* SKU
+* Scheme
+* Qty
+* Discount
+
+### Customer Scheme Report
+
+* Customer
+* Scheme
+* Bills
+* Benefit
+
+### Store Scheme Report
+
+* Store
+* Scheme
+* Sales
+* Discount
+* Margin
+
+### Supplier Scheme Report
+
+* Supplier
+* Scheme
+* Supplier Contribution
+* Pending Recovery
+
+### Loyalty Scheme Report
+
+* Scheme
+* Eligible Sales
+* Points Earned
+* Bonus Points
+
+### Scheme ROI
+
+Calculate:
+
+`Incremental Sales`
+
+`Scheme Cost`
+
+`Gross Margin`
+
+`Supplier Funding`
+
+`ROI`
+
+---
+
+# 32. API DESIGN
+
+Create reusable APIs:
+
+`POST /api/schemes`
+
+Create scheme.
+
+`GET /api/schemes`
+
+List schemes.
+
+`GET /api/schemes/{id}`
+
+Get scheme.
+
+`PUT /api/schemes/{id}`
+
+Update scheme.
+
+`POST /api/schemes/{id}/submit`
+
+Submit for approval.
+
+`POST /api/schemes/{id}/approve`
+
+Approve.
+
+`POST /api/schemes/{id}/activate`
+
+Activate.
+
+`POST /api/schemes/{id}/simulate`
+
+Simulate.
+
+`POST /api/scheme-engine/calculate`
+
+Calculate schemes for cart.
+
+`POST /api/scheme-engine/validate`
+
+Validate scheme eligibility.
+
+`POST /api/scheme-engine/apply`
+
+Apply selected scheme.
+
+`GET /api/schemes/reports`
+
+Reports.
+
+---
+
+# 33. SCHEME ENGINE RESPONSE
+
+The calculation API should return structured data similar to:
+
+```json
+{
+  "eligibleSchemes": [],
+  "appliedSchemes": [],
+  "totalDiscount": 0,
+  "supplierContribution": 0,
+  "companyContribution": 0,
+  "totalCustomerSavings": 0,
+  "loyaltyPointsEligible": true,
+  "loyaltyPoints": 0,
+  "conflicts": []
+}
+```
+
+For every applied scheme include:
+
+```json
+{
+  "schemeId": 101,
+  "schemeCode": "BUY2GET1",
+  "schemeName": "Buy 2 Get 1 Free",
+  "discountAmount": 100,
+  "freeQuantity": 1,
+  "supplierContribution": 20,
+  "companyContribution": 80,
+  "loyaltyPointsEligible": false
+}
+```
+
+---
+
+# 34. IMPORTANT EDGE CASES
+
+Handle all of these:
+
+* Same product scanned multiple times
+* Quantity edited after scheme application
+* Item removed after scheme application
+* Return of promotional item
+* Partial return
+* Free item return
+* Cancelled bill
+* Bill reprint
+* Offline billing
+* Sync after offline billing
+* Duplicate coupon
+* Expired coupon
+* Coupon already used
+* Scheme activated after bill was created
+* Scheme expired during billing
+* Price change
+* MRP change
+* Product cost change
+* Multiple schemes
+* Negative quantity
+* Zero quantity
+* Decimal quantity where applicable
+* Weight-based products
+* Tax-inclusive prices
+* GST calculation
+* Round-off
+* Multiple stores
+* Multi-location inventory
+* E-commerce orders
+
+---
+
+# 35. TAX/GST SAFETY
+
+Do not mix promotional discount logic with tax logic.
+
+The engine must clearly return:
+
+Gross value
+Discount
+Taxable value
+GST
+Net payable
+
+Ensure discount treatment follows the configured tax/business rules.
+
+Do not assume every scheme discount has identical GST treatment.
+
+Keep tax calculation in a separate Tax Engine.
+
+---
+
+# 36. PERFORMANCE
+
+This will run during POS billing, so performance is critical.
+
+Do NOT query every scheme from the database for every scanned item.
+
+Implement:
+
+* Active scheme cache
+* Product-to-scheme index
+* Category-to-scheme index
+* Brand-to-scheme index
+* Store-specific cache
+* Date/time cache
+* Efficient database indexes
+
+Target:
+
+Scheme calculation should normally complete within milliseconds.
+
+---
+
+# 37. AUDIT
+
+Record:
+
+* Who created scheme
+* Who modified scheme
+* Who approved scheme
+* Who activated scheme
+* Previous value
+* New value
+* Date/time
+* IP/device if available
+
+Every applied scheme must be traceable from:
+
+Bill → Bill Line → Scheme → Scheme Version.
+
+---
+
+# 38. TESTING
+
+Create comprehensive automated tests.
+
+Test at least:
+
+1. Buy 1 Get 1
+2. Buy 2 Get 1
+3. Buy 3 Get 2
+4. Quantity slab
+5. Value slab
+6. Combo
+7. Mix & Match
+8. Category discount
+9. Brand discount
+10. Bill discount
+11. Coupon
+12. Payment scheme
+13. Customer scheme
+14. Loyalty points
+15. Free gift
+16. Supplier funding
+17. Scheme conflict
+18. Scheme stacking
+19. Maximum discount
+20. Expired scheme
+21. Store restriction
+22. Customer restriction
+23. Excluded SKU
+24. Partial return
+25. Offline billing
+
+---
+
+# 39. DEVELOPMENT RULES
+
+IMPORTANT:
+
+Do not create a collection of unrelated discount functions.
+
+Create a proper:
+
+`SchemeRuleEngine`
+
+with modular rule handlers.
+
+Suggested architecture:
+
+```text
+SchemeEngine
+    ↓
+SchemeResolver
+    ↓
+EligibilityEngine
+    ↓
+ConditionEngine
+    ↓
+BenefitEngine
+    ↓
+ConflictResolver
+    ↓
+StackingEngine
+    ↓
+BestSchemeSelector
+    ↓
+LoyaltyIntegration
+    ↓
+TaxEngine
+    ↓
+BillEngine
+```
+
+Each component must have a clear responsibility.
+
+---
+
+# 40. FUTURE EXTENSIBILITY
+
+Architecture must allow adding future schemes without modifying existing scheme calculations.
+
+Future examples:
+
+* Festival lucky draw
+* Cashback
+* Wallet credit
+* Scratch card
+* Digital coupon
+* Referral reward
+* Membership benefit
+* Personalized AI offer
+* E-commerce-only offer
+* App-only offer
+* Supplier campaign
+* Dynamic pricing
+
+Use a configuration-driven approach wherever practical.
+
+---
+
+# 41. FINAL DELIVERABLE
+
+Do not only provide conceptual suggestions.
+
+Actually implement the complete feature according to the existing application's:
+
+* Technology stack
+* Database
+* Coding standards
+* Authentication
+* Existing POS
+* Existing Product Master
+* Existing Customer Master
+* Existing Loyalty System
+* Existing Billing System
+* Existing Store/Location system
+
+Before making database changes, inspect the existing schema and reuse existing tables wherever appropriate.
+
+Do not duplicate Product, Customer, Store, Supplier or Tax masters.
+
+Provide:
+
+1. Database migrations
+2. Models/entities
+3. Services
+4. Scheme Engine
+5. API endpoints
+6. POS integration
+7. Scheme Master UI
+8. Scheme Simulator
+9. Approval workflow
+10. Reports
+11. Audit logging
+12. Automated tests
+13. Sample schemes
+14. Documentation
+
+Use clean, maintainable production-quality code.
+
+MOST IMPORTANT:
+
+The cashier should NOT need to manually select normal schemes.
+
+The system should automatically identify and apply eligible schemes while billing.
+
+However, if multiple valid schemes exist, the POS should clearly show the available benefits and apply the configured selection/stacking rules.
+
+The final system must be reliable enough for a multi-store supermarket environment with high transaction volume.

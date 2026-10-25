@@ -1,0 +1,173 @@
+﻿API Documentation - Posting E-Invoice to GSTZen 
+GSTZen E-Invoicing API works as follows. ERP system posts E-Invoice data to GSTZen and GSTZen posts it to the Govt Portal (IRP) with appropriate authentication and encryption and returns a response. This document describes how to post data and the response format.
+
+
+GSTZen accepts data over a HTTP REST API. The ping API call is a GET method, the others are HTTP POST API calls.
+Demo GSTIN
+Sign up at https://my.gstzen.in to create an account. For the Demo purposes, please use any of the GSTINs provided in this link - https://www.gstzen.in/a/generate-e-invoice-api.html.
+
+
+In the GSTZen account, click on E-Invoicing and click on Tally, SAP, or corresponding integration. Note down the Authentication token on this page. You will be using it to make API calls.
+URLs
+The URL to post the data will be based on the action to perform. The URLs are
+
+
+Action
+	HTTP Method
+	URL
+	Version/Ping
+	GET
+	https://my.gstzen.in/~gstzen/a/post-einvoice-data/einvoice-json/version/
+	Generate E-Invoice
+	POST
+	https://my.gstzen.in/~gstzen/a/post-einvoice-data/einvoice-json/
+	Cancel E-Invoice
+	POST
+	https://my.gstzen.in/~gstzen/a/post-einvoice-data/einvoice-json/cancel/
+	Generate EWB
+	POST
+	https://my.gstzen.in/~gstzen/a/post-einvoice-data/einvoice-json/genewb/
+	Cancel EWB
+	POST
+	https://my.gstzen.in/~gstzen/a/post-einvoice-data/einvoice-json/cancelewb/
+	Payload
+For all POST API calls, provide Generate E-Invoice payload in JSON format as per schema provided by NIC. Refer to the sample at the end of this documentation to get started.
+Authentication
+Pass a header named Token with the value being the authentication token obtained from the E-Invoicing upload page in GSTZen software.
+Example Request and Response
+Pass a header named Token with the value being the authentication token obtained from the E-Invoicing upload page in GSTZen software.
+
+
+URL: https://my.gstzen.in/~gstzen/a/post-einvoice-data/einvoice-json/
+Method: POST
+Headers:
+        Token: de3a3a01-273a-4a81-8b75-13fe37f14dc6
+        Content-Type: application/json
+Body:
+        {
+                "Version": "1.1",
+                "SellerDtls": {
+                        ...
+                },
+           ... Full E-Invoice JSON. See last page for sample ...
+                ...
+        }
+Response
+{
+  "AckDt": "2020-10-10 07:46:00",
+  "AckNo": 112010013951419,
+  "EwbDt": null,
+  "EwbNo": null,
+  "EwbStatus": "NON",
+  "EwbValidTill": null,
+  "Irn": "6852b0d1adc4747498e87e7ea9a594d0f25e3363b5319cb30e438d556323fb28",
+  "IrnStatus": "GEN",
+  "Remarks": null,
+  "SignedInvoice": "eyJhbGciOiJSUzI1NiIsI... truncated",
+  "SignedQRCode": "eyJhbGciOiJSUzI1NiIsIm... truncated",
+  "SignedQrCodeImgUrl": "/~demo/a/invoices/74e43eae-0b0b-4ac2-b131-3dd0c4d703b5/einvoice/qrcode/.png/",
+  "InvoicePdfUrl": "/~demo/a/invoices/74e43eae-0b0b-4ac2-b131-3dd0c4d703b5/einvoice/.pdf2/",
+  "Status": "ACT",
+  "message": "IRN generated",
+  "status": 1,
+  "uuid": "74e43eae-0b0b-4ac2-b131-3dd0c4d703b5"
+}
+Consuming the Response
+GSTZen provides a consistent response format for all E-Invoicing and E-Way Bill API calls. The key fields to notice, highlighted in yellow are
+* message - Display this directly to the user in your application's user interface. GSTZen tries to provide a very meaningful message and we are improving this over time.
+* status - status = 1 indicates success and status = 0 indicates failure. You can show show the message with an indication of success (such as a tick mark or green color) or of failure (such as cross mark or red color)
+* IrnStatus - This field indicates the status of the E-Invoice. The possible values are
+   * GEN for Generated
+   * ERR for Error
+   * CAN for Cancelled
+   * NON for Not Generated
+* EwbStatus - This field indicates the status of any E-Way Bill associated with the E-Invoice. The possible values are the same as that of IrnStatus.
+* uuid - A unique identifier in GSTZen to identify the Invoice. You can use this to contact GSTZen Support if you have any issues with this particular invoice.
+
+
+The salient feature of GSTZen's E-Invoicing API is that you handle responses for all API calls the same way. Whether you are trying to generate an E-Invoice, or cancel an E-Invoice, it does not matter if the operation succeeds or fails. As a developer, you only have to look at the IrnStatus and EwbStatus fields to know the status of the Invoice.
+
+
+Or course there are other fields such as IRN, Signed QR Code, Signed Invoice, EWB Number and Date. You can save these details in your ERP.
+________________
+Sample E-Invoice Payload
+As per https://einv-apisandbox.nic.in/version1.03/generate-irn.html#requestSampleJSON
+{
+  "DocDtls": {
+        "Dt": "08/12/2020",
+        "No": "CN/COR/20-21/018",
+        "Typ": "INV"
+  },
+  "ValDtls": {
+        "AssVal": 1785810.82,
+        "CesVal": 357162.16,
+        "CgstVal": 250013.51,
+        "IgstVal": 0,
+        "OthChrg": 0,
+        "SgstVal": 250013.51,
+        "Discount": 0,
+        "StCesVal": 0,
+        "RndOffAmt": 0,
+        "TotInvVal": 2643000.0,
+        "TotItemValSum": 2643000.0
+  },
+  "Version": "1.1",
+  "ItemList": [
+        {
+          "Qty": 1.0,
+          "SlNo": "1",
+          "Unit": "NOS",
+          "GstRt": 28.0,
+          "HsnCd": "87033291",
+          "AssAmt": 1785810.82,
+          "CesAmt": 357162.16,
+          "TotAmt": 1826351.63,
+          "CgstAmt": 250013.51,
+          "IgstAmt": 0.0,
+          "IsServc": "N",
+          "PrdDesc": "Computer Hardware",
+          "SgstAmt": 250013.51,
+          "Discount": 40540.81,
+          "UnitPrice": 1826351.63,
+          "TotItemVal": 2643000.0
+        }
+  ],
+  "TranDtls": {
+        "RegRev": "N",
+        "SupTyp": "B2B",
+        "TaxSch": "GST",
+        "EcmGstin": null,
+        "IgstOnIntra": "N"
+  },
+  "BuyerDtls": {
+        "Em": null,
+        "Ph": null,
+        "Loc": "BANGALORE",
+        "Pin": 560038,
+        "Pos": "29",
+        "Stcd": "29",
+        "Addr1": "KHATA NO 106, BANDAPPA  CALONY",
+        "Addr2": "BYANAPANAHALLI EXTENSION",
+        "Gstin": "29AAACO2563P1ZX",
+        "LglNm": "ORIX LEASING & FINANCIAL SERVIES INDIA LIMITED"
+  },
+  "SellerDtls": {
+        "Em": "support@gstzen.in",
+        "Ph": "8067879111",
+        "Loc": "BANGALORE",
+        "Pin": 560016,
+        "Stcd": "29",
+        "Addr1": "# 111, 112 & 125",
+        "Addr2": "B Narayanapura, K R Puram",
+        "Gstin": "29AAFCC9980M1ZR",
+        "LglNm": "GSTZen Private Limited"
+  },
+  "EwbDtls": {
+    "VehNo": "KA33A1234",
+    "TransId": "29AAFCC9980M1ZR",
+    "VehType": "R",
+    "Distance": 0,
+    "TransMode": "1",
+    "TransName": "Test"
+  }
+}

@@ -1,0 +1,19 @@
+id	module	action	description	user_name	created_at
+18	auth	login	User logged in: admin (device approved)	Administrator	2026-07-09 15:11:03
+17	auth	logout	User logged out: admin	Administrator	2026-07-09 15:10:26
+16	user_management	create_user	Created user "AJAY" | Username: AJAY@5736 | Role: cashier	Administrator	2026-07-09 15:09:42
+15	refunds	create_refund	Refund #REF-2026-0002 for invoice #INV-2026-0007 — ₹48.00	Administrator	2026-07-09 15:05:32
+14	billing	create_bill	Created invoice #INV-2026-0007	Administrator	2026-07-09 15:03:52
+13	OFFLINE_SYNC	Synced offline invoice OFF-STORE-000001 → INV-2026		Administrator	2026-07-09 14:54:18
+12	billing	create_bill	Created invoice #INV-2026-0005	Administrator	2026-07-09 14:54:17
+11	billing	create_bill	Created invoice #INV-2026-0004	Administrator	2026-07-09 14:53:57
+10	customers	create	Added customer "DEEPAK" | Phone: 9992013333	Administrator	2026-07-09 14:52:07
+9	data_reset	reset	Data reset executed for: products	Super Admin	2026-07-09 09:20:58
+8	billing	create_bill	Created invoice #INV-2026-0003	Administrator	2026-07-09 14:48:47
+7	customers	edit	Updated customer "Vivek Yadav" (ID #1)	Administrator	2026-07-09 14:42:10
+6	billing	create_bill	Created invoice #INV-2026-0002	Administrator	2026-07-09 13:54:26
+5	data_reset	reset	Data reset executed for: product_barcodes	Super Admin	2026-07-09 08:20:19
+4	auth	login	User logged in: admin (device approved)	Administrator	2026-07-09 13:44:15
+3	billing	create_bill	Created invoice #INV-2026-0001	Super Admin	2026-07-09 11:31:24
+2	auth	login	User logged in: admin (device approved)	Administrator	2026-07-09 11:00:05
+1	device_access	approved	Approved device for user "Administrator" | IP: 2405:201:5808:5057:c8e1:a0fe:a26f:6e32 | Browser: Chrome	Super Admin	2026-07-09 10:59:56

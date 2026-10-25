@@ -1,0 +1,3 @@
+id	module	action	record_id	record_no	old_data	new_data	old_amount	new_amount	description	user_id	user_name	ip_address	location_id	location_name	created_at
+5	data_reset	reset	0	DATA-RESET	["product_barcodes"]	NULL	0.00	0.00	Data reset executed for: product_barcodes	9999	Super Admin	2409:40d2:30c4:8d3a:69e3:8067:37e6:d0c7	NULL	NULL	2026-07-09 08:20:19
+9	data_reset	reset	0	DATA-RESET	["products"]	NULL	0.00	0.00	Data reset executed for: products	9999	Super Admin	2409:40d2:30c4:8d3a:69e3:8067:37e6:d0c7	NULL	NULL	2026-07-09 09:20:58

@@ -1,0 +1,25 @@
+{
+  "name": "Store — Fast Grocery Delivery",
+  "short_name": "Store",
+  "description": "Fresh groceries and daily essentials, delivered fast.",
+  "start_url": "/store",
+  "scope": "/store/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0DB14B",
+  "theme_color": "#0DB14B",
+  "icons": [
+    {
+      "src": "assets/uploads/logo_1782204427.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/uploads/logo_1782204427.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

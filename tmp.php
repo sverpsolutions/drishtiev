@@ -1,0 +1,1 @@
+<?php define('BASEPATH', '1'); require 'application/config/database.php'; $pdo = new PDO('mysql:host='.$db['default']['hostname'].';dbname='.$db['default']['database'].';charset=utf8mb4', $db['default']['username'], $db['default']['password']); $stmt = $pdo->query('DESCRIBE invoices'); print_r($stmt->fetchAll(PDO::FETCH_ASSOC)); ?>

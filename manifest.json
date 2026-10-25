@@ -1,0 +1,25 @@
+{
+  "name": "DISCOUNT STORE",
+  "short_name": "Discount Store",
+  "description": "QUALITY YOU TRUST ,VALUES YOU DESERVE",
+  "start_url": "/portal/products",
+  "scope": "/portal/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#3B2314",
+  "theme_color": "#3B2314",
+  "icons": [
+    {
+      "src": "assets/uploads/logo_1782204427.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/uploads/logo_1782204427.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

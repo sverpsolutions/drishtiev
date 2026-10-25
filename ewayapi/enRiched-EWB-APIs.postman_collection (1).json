@@ -1,0 +1,1207 @@
+{
+	"info": {
+		"_postman_id": "2aa918fd-06c2-4c83-aa27-606cf28267c6",
+		"name": "enRiched-EWB-APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25073633"
+	},
+	"item": [
+		{
+			"name": "GSP Authentication",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "gspappid",
+						"value": "EDF6E2A127E542BEA39725B8452FD1C4"
+					},
+					{
+						"key": "gspappsecret",
+						"value": "AF2E6BBBG140DG4FB8G8F52G01BFA3DECC79"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/gsp/authenticate?grant_type=token",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"gsp",
+						"authenticate"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "token"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate E-Way Bill Enriched",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "4738reheu"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNjcyMjA0Mzg2LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9UQVhfQ0FMQ1VMQVRJT04iLCJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0FQSV9FSSIsIlJPTEVfU0JfRV9BUElfRUkiLCJST0xFX1NCX0FQSV9HU1BfT1RIRVJTIl0sImp0aSI6ImJjYzlmOTk0LTc3OWItNDc5OS05ZTZjLTJlMDE1Njg3MzQ0NyIsImNsaWVudF9pZCI6IkVERjZFMkExMjdFNTQyQkVBMzk3MjVCODQ1MkZEMUM0In0.JXR4miOugbzbAw6ZAw1adcWA7HbCFlByrltWMGMjJ-I"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"supplyType\": \"O\",\n    \"subSupplyType\": \"1\",\n    \"docType\": \"INV\",\n    \"docNo\": \"12M3-8767\",\n    \"docDate\": \"15/12/2022\",\n    \"fromGstin\": \"05AAACG2115R1ZN\",\n    \"fromTrdName\": \"welton\",\n    \"fromAddr1\": \"2ND CROSS NO 59  19  A\",\n    \"fromAddr2\": \"GROUND FLOOR OSBORNE ROAD\",\n    \"fromPlace\": \"FRAZER TOWN\",\n    \"fromPincode\": 560042,\n    \"actFromStateCode\": 29,\n    \"fromStateCode\": 29,\n    \"toGstin\": \"05AAACG2140A1ZL\",\n    \"toTrdName\": \"sthuthya\",\n    \"toAddr1\": \"Shree Nilaya\",\n    \"toAddr2\": \"Dasarahosahalli\",\n    \"toPlace\": \"Beml Nagar\",\n    \"toPincode\": 500003,\n    \"actToStateCode\": 36,\n    \"toStateCode\": 36,\n    \"totalValue\": 5609889,\n    \"cgstValue\": 0,\n    \"sgstValue\": 0,\n    \"igstValue\": 168296.67,\n    \"cessValue\": 224395.56,\n    \"totInvValue\": 6002581.23,\n    \"transporterId\": \"\",\n    \"transporterName\": \"\",\n    \"transDocNo\": \"\",\n    \"transMode\": \"1\",\n    \"transDistance\": \"25\",\n    \"transDocDate\": \"\",\n    \"vehicleNo\": \"PVC1234\",\n    \"vehicleType\": \"R\",\n    \"TransactionType\": \"1\",\n    \"itemList\": [{\n        \"productName\": \"Wheat\",\n        \"productDesc\": \"Wheat\",\n        \"hsnCode\": 1001,\n        \"quantity\": 4,\n        \"qtyUnit\": \"BOX\",\n        \"cgstRate\": 0,\n        \"sgstRate\": 0,\n        \"igstRate\": 3,\n        \"cessRate\": 1,\n        \"cessAdvol\": 0,\n        \"taxableAmount\": 5609889\n    },\n    {\n        \"productName\": \"Wheat\",\n        \"productDesc\": \"Wheat\",\n        \"hsnCode\": 1001,\n        \"quantity\": 4,\n        \"qtyUnit\": \"BOX\",\n        \"cgstRate\": 0,\n        \"sgstRate\": 0,\n        \"igstRate\": 3,\n        \"cessRate\": 1,\n        \"cessAdvol\": 0,\n        \"taxableAmount\": 5609889\n    }]\n}"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=GENEWAYBILL",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "GENEWAYBILL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate E-Way Bill Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "4738reheu"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNjcyMjA0Mzg2LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9UQVhfQ0FMQ1VMQVRJT04iLCJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0FQSV9FSSIsIlJPTEVfU0JfRV9BUElfRUkiLCJST0xFX1NCX0FQSV9HU1BfT1RIRVJTIl0sImp0aSI6ImJjYzlmOTk0LTc3OWItNDc5OS05ZTZjLTJlMDE1Njg3MzQ0NyIsImNsaWVudF9pZCI6IkVERjZFMkExMjdFNTQyQkVBMzk3MjVCODQ1MkZEMUM0In0.JXR4miOugbzbAw6ZAw1adcWA7HbCFlByrltWMGMjJ-I"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"supplyType\": \"O\",\n    \"subSupplyType\": \"1\",\n    \"docType\": \"INV\",\n    \"docNo\": \"12M3-8767\",\n    \"docDate\": \"15/12/2022\",\n    \"fromGstin\": \"05AAACG2115R1ZN\",\n    \"fromTrdName\": \"welton\",\n    \"fromAddr1\": \"2ND CROSS NO 59  19  A\",\n    \"fromAddr2\": \"GROUND FLOOR OSBORNE ROAD\",\n    \"fromPlace\": \"FRAZER TOWN\",\n    \"fromPincode\": 560042,\n    \"actFromStateCode\": 29,\n    \"fromStateCode\": 29,\n    \"toGstin\": \"05AAACG2140A1ZL\",\n    \"toTrdName\": \"sthuthya\",\n    \"toAddr1\": \"Shree Nilaya\",\n    \"toAddr2\": \"Dasarahosahalli\",\n    \"toPlace\": \"Beml Nagar\",\n    \"toPincode\": 500003,\n    \"actToStateCode\": 36,\n    \"toStateCode\": 36,\n    \"totalValue\": 5609889,\n    \"cgstValue\": 0,\n    \"sgstValue\": 0,\n    \"igstValue\": 168296.67,\n    \"cessValue\": 224395.56,\n    \"totInvValue\": 6002581.23,\n    \"transporterId\": \"\",\n    \"transporterName\": \"\",\n    \"transDocNo\": \"\",\n    \"transMode\": \"1\",\n    \"transDistance\": \"25\",\n    \"transDocDate\": \"\",\n    \"vehicleNo\": \"PVC1234\",\n    \"vehicleType\": \"R\",\n    \"TransactionType\": \"1\",\n    \"itemList\": [{\n        \"productName\": \"Wheat\",\n        \"productDesc\": \"Wheat\",\n        \"hsnCode\": 1001,\n        \"quantity\": 4,\n        \"qtyUnit\": \"BOX\",\n        \"cgstRate\": 0,\n        \"sgstRate\": 0,\n        \"igstRate\": 3,\n        \"cessRate\": 1,\n        \"cessAdvol\": 0,\n        \"taxableAmount\": 5609889\n    },\n    {\n        \"productName\": \"Wheat\",\n        \"productDesc\": \"Wheat\",\n        \"hsnCode\": 1001,\n        \"quantity\": 4,\n        \"qtyUnit\": \"BOX\",\n        \"cgstRate\": 0,\n        \"sgstRate\": 0,\n        \"igstRate\": 3,\n        \"cessRate\": 1,\n        \"cessAdvol\": 0,\n        \"taxableAmount\": 5609889\n    }]\n}"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=GENEWAYBILL",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "GENEWAYBILL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vehicle No. Updation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "8rff7"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNjcyMjA0Mzg2LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9UQVhfQ0FMQ1VMQVRJT04iLCJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0FQSV9FSSIsIlJPTEVfU0JfRV9BUElfRUkiLCJST0xFX1NCX0FQSV9HU1BfT1RIRVJTIl0sImp0aSI6ImJjYzlmOTk0LTc3OWItNDc5OS05ZTZjLTJlMDE1Njg3MzQ0NyIsImNsaWVudF9pZCI6IkVERjZFMkExMjdFNTQyQkVBMzk3MjVCODQ1MkZEMUM0In0.JXR4miOugbzbAw6ZAw1adcWA7HbCFlByrltWMGMjJ-I"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"EwbNo\": 331003044848,\n  \"VehicleNo\": \"PQR9876\",\n  \"FromPlace\": \"BANGALORE\",\n  \"FromState\": 29,\n \"ReasonCode\": \"1\",\n  \"ReasonRem\": \"vehicle broke down\",\n  \"TransDocNo \": \"1234 \",\n  \"TransDocDate \": \"12/10/2017 \",\n   \"TransMode\": \"1\"\n} "
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=VEHEWB",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "VEHEWB"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consolidated E-way bill",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumeric_uniqasasaue_value"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTI3NDA4ODM0LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9BU1BfU0JfQVBQIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiMjFmOTI1ZTItZWUyNi00Y2Q0LWFjOTYtZTdmMjRkOTc2ODVmIiwiY2xpZW50X2lkIjoiMjAxMTI0RDQ5OUJDNDY1QkE3RkY5MzM1N0U0QzlFNzcifQ.VhCBtl4ZWQPmKLGM4nZiOYpE5fy_AEPQ_ySKc4DL830"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"fromPlace\": \"BANGALORE SOUTH\",\n  \"fromState\": \"29\",\n  \"vehicleNo\": \"PQR9876\",\n  \"transMode\": \"1\",\n  \"TransDocNo\":null,\n  \"TransDocDate\":null,\n  \"tripSheetEwbBills\": [\n    {       \"ewbNo\": 381002148807    }\n]} "
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=GENCEWB",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "GENCEWB"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancellation of E-way",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "kjhkjhkjhkjhjhftyassasas"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTgxMzM4OTkzLCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0FQSV9FSSIsIlJPTEVfU0JfRV9BUElfRUkiXSwianRpIjoiNTYxOTg2MGMtODcxYS00NmE5LThlNmEtMGE1MDA5YjAxZjdmIiwiY2xpZW50X2lkIjoiRURGNkUyQTEyN0U1NDJCRUEzOTcyNUI4NDUyRkQxQzQifQ.gQ4tbGEGmwg1CgZM6CURfHi1kvvmp6cv7crYuPSfscY"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n\"ewbNo\": 381002148807,\n \"cancelRsnCode\": 2,\n\"cancelRmrk\": \"Cancelled the order\"\n}"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=CANEWB",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "CANEWB"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reject E-way bill",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "gstin",
+						"value": "05AAACG2140A1ZL"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2140A1ZL"
+					},
+					{
+						"key": "requestid",
+						"value": "sadassdasd"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTYzMDIyNjE3LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0VfQVBJX0VXQiJdLCJqdGkiOiJlOTE1YTdkNy1mNzk2LTRiMjctOGE3YS1lZGY0ZTlmMmM3MTQiLCJjbGllbnRfaWQiOiI0MkI4NDM1MkRDMUQ0MTMwQjExRjA1N0IxMTczMzA5MCJ9.AVsjRbsaoV4PzeIErQ60mxgFbhDHrDnpF3hQX1Zypc0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ewbNo\": \"371001816030\"\n}"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=REJEWB",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "REJEWB"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EWB - Extend Validity",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "asasasd122351aaa14"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTcwNjIzMjEzLCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0VXQiIsIlJPTEVfU0JfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0VfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfR1NUX1JFVFVSTlMiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiZWY0MzM5NTgtYWY4My00MDlhLWFkNjMtMzcwZDA3NDczYjM4IiwiY2xpZW50X2lkIjoiMzU0NUIxQTlBNEUxNDJDMjg5NUFCREJDNUFDMDBBOUUifQ.DgZbYAmzNtiaH5Zf5DZZjmm2XgoICgf9MKtZIh_kOds"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"ewbNo\": 391001955409,\n\t\"vehicleNo\": \"MH23CA1122\",\n\t\"fromPlace\": \"MAHARASTRA\",\n\t\"fromState\": 36,\n\t\"frompincode\": 500001,\n\t\"remainingDistance\": 10,\n\t\"consignmentStatus\": \"M\",\n\t\"transitType\": \"\",\n\t\"transDocNo \": \"\",\n\t\"transDocDate\": \"\",\n\t\"transMode\": 1,\n\t\"extnRsnCode\": 4,\n\t\"extnRemarks\": \"Transshipment\",\n\t\"addressLine1\": \"\",\n\t\"addressLine2\": \"\",\n\t\"addressLine3\": \"\"\n}"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=EXTENDVALIDITY",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "EXTENDVALIDITY"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EWB - Update transporter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumeric_unique_value"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTI3NDA4ODM0LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9BU1BfU0JfQVBQIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiMjFmOTI1ZTItZWUyNi00Y2Q0LWFjOTYtZTdmMjRkOTc2ODVmIiwiY2xpZW50X2lkIjoiMjAxMTI0RDQ5OUJDNDY1QkE3RkY5MzM1N0U0QzlFNzcifQ.VhCBtl4ZWQPmKLGM4nZiOYpE5fy_AEPQ_ySKc4DL830"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"ewbNo\":\"351001073457\",\r\n\"transporterId\":\"29AKLPM8755F1Z2\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=UPDATETRANSPORTER",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "UPDATETRANSPORTER"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEwayBill",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "sddassdas"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTc0OTMwMjk1LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0VXQiIsIlJPTEVfU0JfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0VfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfR1NUX1JFVFVSTlMiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiNWQyZDM2NjctMmI1ZC00ZGIxLTgyOWEtODIyMGE5MjNlNjFjIiwiY2xpZW50X2lkIjoiRURGNkUyQTEyN0U1NDJCRUEzOTcyNUI4NDUyRkQxQzQifQ.AYf2H84Q8qi_c508e8jQqqfc0hpDSEVAAS1GzmRGMbU"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi/GetEwayBill?ewbNo=391001998884",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi",
+						"GetEwayBill"
+					],
+					"query": [
+						{
+							"key": "ewbNo",
+							"value": "391001998884"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEwayBillsForTransporter",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumeric_unique_value"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTI3NDA4ODM0LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9BU1BfU0JfQVBQIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiMjFmOTI1ZTItZWUyNi00Y2Q0LWFjOTYtZTdmMjRkOTc2ODVmIiwiY2xpZW50X2lkIjoiMjAxMTI0RDQ5OUJDNDY1QkE3RkY5MzM1N0U0QzlFNzcifQ.VhCBtl4ZWQPmKLGM4nZiOYpE5fy_AEPQ_ySKc4DL830"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi/GetEwayBillsForTransporter?date=29/03/2018",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi",
+						"GetEwayBillsForTransporter"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "29/03/2018"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEwayBillsForTransporterByGstin",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumeric_unique_value"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTI3NDA4ODM0LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9BU1BfU0JfQVBQIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiMjFmOTI1ZTItZWUyNi00Y2Q0LWFjOTYtZTdmMjRkOTc2ODVmIiwiY2xpZW50X2lkIjoiMjAxMTI0RDQ5OUJDNDY1QkE3RkY5MzM1N0U0QzlFNzcifQ.VhCBtl4ZWQPmKLGM4nZiOYpE5fy_AEPQ_ySKc4DL830"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi/GetEwayBillsForTransporterByGstin?Gen_gstin=05AAACG2115R1ZN&date=29/03/2018",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi",
+						"GetEwayBillsForTransporterByGstin"
+					],
+					"query": [
+						{
+							"key": "Gen_gstin",
+							"value": "05AAACG2115R1ZN"
+						},
+						{
+							"key": "date",
+							"value": "29/03/2018"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEwayBillsofOtherParty",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2140A1ZL"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2140A1ZL"
+					},
+					{
+						"key": "requestid",
+						"value": "sasasasas"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTY1NDM2Njc3LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0VXQiIsIlJPTEVfU0JfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0VfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfR1NUX1JFVFVSTlMiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiZjQ3YWJlNmYtM2U4ZS00NTRjLWE0NjUtYTNmY2E3ZDNiNDIwIiwiY2xpZW50X2lkIjoiNzk1MzZFMzlGMjE2NDQ5ODgzNzIwQ0NENTM2NDNEOEYifQ.5YzB5M1BOKKifiRrFW00O6RjVjOEPpzSe2vxNTC9hcE"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi/GetEwayBillsofOtherParty?date=08/08/2019",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi",
+						"GetEwayBillsofOtherParty"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "08/08/2019"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET CONSOLIDATED E-WAY BILL",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumeric_unique_value"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTI3NDA4ODM0LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9BU1BfU0JfQVBQIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiMjFmOTI1ZTItZWUyNi00Y2Q0LWFjOTYtZTdmMjRkOTc2ODVmIiwiY2xpZW50X2lkIjoiMjAxMTI0RDQ5OUJDNDY1QkE3RkY5MzM1N0U0QzlFNzcifQ.VhCBtl4ZWQPmKLGM4nZiOYpE5fy_AEPQ_ySKc4DL830"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi/GetTripSheet?tripSheetNo=3710007099",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi",
+						"GetTripSheet"
+					],
+					"query": [
+						{
+							"key": "tripSheetNo",
+							"value": "3710007099"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Enrolled Transporter",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "dasdasdsaasa"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTY1NDM2Njc3LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0VXQiIsIlJPTEVfU0JfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0VfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfR1NUX1JFVFVSTlMiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiZjQ3YWJlNmYtM2U4ZS00NTRjLWE0NjUtYTNmY2E3ZDNiNDIwIiwiY2xpZW50X2lkIjoiNzk1MzZFMzlGMjE2NDQ5ODgzNzIwQ0NENTM2NDNEOEYifQ.5YzB5M1BOKKifiRrFW00O6RjVjOEPpzSe2vxNTC9hcE"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/master/GetTransporterDetails?trn_no=05AAACG2140A1ZL",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"master",
+						"GetTransporterDetails"
+					],
+					"query": [
+						{
+							"key": "trn_no",
+							"value": "05AAACG2140A1ZL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Get Error list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumesric_unique_valuess"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTgxMzM4OTkzLCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0FQSV9FSSIsIlJPTEVfU0JfRV9BUElfRUkiXSwianRpIjoiNTYxOTg2MGMtODcxYS00NmE5LThlNmEtMGE1MDA5YjAxZjdmIiwiY2xpZW50X2lkIjoiRURGNkUyQTEyN0U1NDJCRUEzOTcyNUI4NDUyRkQxQzQifQ.gQ4tbGEGmwg1CgZM6CURfHi1kvvmp6cv7crYuPSfscY"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/master/GetErrorList",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"master",
+						"GetErrorList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get HSN",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "sdasddasdas"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTY1NDM2Njc3LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0VXQiIsIlJPTEVfU0JfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0VfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfR1NUX1JFVFVSTlMiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiZjQ3YWJlNmYtM2U4ZS00NTRjLWE0NjUtYTNmY2E3ZDNiNDIwIiwiY2xpZW50X2lkIjoiNzk1MzZFMzlGMjE2NDQ5ODgzNzIwQ0NENTM2NDNEOEYifQ.5YzB5M1BOKKifiRrFW00O6RjVjOEPpzSe2vxNTC9hcE"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/master/GetHsnDetailsByHsnCode?hsncode=1905",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"master",
+						"GetHsnDetailsByHsnCode"
+					],
+					"query": [
+						{
+							"key": "hsncode",
+							"value": "1905"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get tax payer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@",
+						"type": "text"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN",
+						"type": "text"
+					},
+					{
+						"key": "requestid",
+						"value": "anysd_alphanasuassasmeric_unique_valuea",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTc3NTIzOTE1LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0VXQiIsIlJPTEVfU0JfQVBJX0dTVF9DT01NT04iLCJST0xFX1NCX0VfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9TQl9BUElfR1NUX1JFVFVSTlMiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiODQzNWM3ZmEtYWFjNi00M2I2LTlkNzEtZDJkODQwNGI1NjE4IiwiY2xpZW50X2lkIjoiRURGNkUyQTEyN0U1NDJCRUEzOTcyNUI4NDUyRkQxQzQifQ.V37On6PzB_7iMwWhW5zZtmplzeEfed2fBur7GEjBwWY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/master/GetGSTINDetails?GSTIN=11AAACA4495N1ZL",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"master",
+						"GetGSTINDetails"
+					],
+					"query": [
+						{
+							"key": "GSTIN",
+							"value": "11AAACA4495N1ZL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEwayBillsForTransporterByState",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@",
+						"type": "text"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN",
+						"type": "text"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumeric_unique_value",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTI3NDA4ODM0LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9BU1BfU0JfQVBQIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiMjFmOTI1ZTItZWUyNi00Y2Q0LWFjOTYtZTdmMjRkOTc2ODVmIiwiY2xpZW50X2lkIjoiMjAxMTI0RDQ5OUJDNDY1QkE3RkY5MzM1N0U0QzlFNzcifQ.VhCBtl4ZWQPmKLGM4nZiOYpE5fy_AEPQ_ySKc4DL830",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi/GetEwayBillsForTransporterByState?date=13/01/2020&stateCode=36",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi",
+						"GetEwayBillsForTransporterByState"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "13/01/2020"
+						},
+						{
+							"key": "stateCode",
+							"value": "36"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EWB - Initiate Multi Vehicle Movement Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@",
+						"type": "text"
+					},
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN",
+						"type": "text"
+					},
+					{
+						"key": "requestid",
+						"value": "sadasdasdasdasdasdasas",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTgxNzM4NDA4LCJhdXRob3JpdGllcyI6WyJST0xFX1BST0RfQVBJX0VXQiIsIlJPTEVfUFJPRF9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfUFJPRF9FX0FQSV9FV0IiLCJST0xFX1BST0RfQVBJX0dTVF9DT01NT04iLCJST0xFX1BST0RfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9QUk9EX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiM2I3Nzc4NjAtNTM0Mi00MTdiLTk2OTktZTlkMGRlMWJmMjRkIiwiY2xpZW50X2lkIjoiOEYyREE5ODIyQUJCNDI0QjlDMTUyNjg5MENGREI2QzUifQ.SUvRcQcqlf20wfaF8ztn3oZ27c3pfaCUdV4_TJrZFNc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ewbNo\": 271179648171,\r\n  \"reasonCode\": \"2\",\r\n  \"reasonRem\": \"Add vehicle\",\r\n  \"fromPlace\": \"sakinaka\",\r\n  \"fromState\": 27,\r\n  \"toPlace\": \"goregaon east\",\r\n  \"toState\": 27,\r\n  \"transMode\": \"1\",\r\n  \"totalQuantity\": 50,\r\n  \"unitCode\": \"NOS\"\r\n}"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=MULTIVEHMOVINT",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "MULTIVEHMOVINT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EWB - Re-generate Cons. E-way bill",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "gstin",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "username",
+						"value": "05AAACG2115R1ZN"
+					},
+					{
+						"key": "requestid",
+						"value": "any_alphanumeric_unique_value"
+					},
+					{
+						"key": "password",
+						"value": "abc123@@"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJnc3AiXSwiZXhwIjoxNTI3NDA4ODM0LCJhdXRob3JpdGllcyI6WyJST0xFX1NCX0FQSV9HU1RfQ09NTU9OIiwiUk9MRV9TQl9FX0FQSV9HU1RfUkVUVVJOUyIsIlJPTEVfU0JfQVBJX0dTVF9SRVRVUk5TIiwiUk9MRV9BU1BfU0JfQVBQIiwiUk9MRV9TQl9BUElfRVdCIiwiUk9MRV9TQl9FX0FQSV9FV0IiLCJST0xFX1NCX0VfQVBJX0dTVF9DT01NT04iXSwianRpIjoiMjFmOTI1ZTItZWUyNi00Y2Q0LWFjOTYtZTdmMjRkOTc2ODVmIiwiY2xpZW50X2lkIjoiMjAxMTI0RDQ5OUJDNDY1QkE3RkY5MzM1N0U0QzlFNzcifQ.VhCBtl4ZWQPmKLGM4nZiOYpE5fy_AEPQ_ySKc4DL830"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"tripSheetNo\": 3710007099,\r\n\"vehicleNo\": \"PQR1234\",\r\n\"FromPlace\":\"Bengaluru\",\r\n\"fromStateCode\":29,\r\n  \"FromState\":29,\r\n\"transDocNo\": \"1234 \",\r\n\"transDocDate\": \"26/04/2018 \",\r\n  \r\n     \"ReasonCode\":\"1\",\r\n       \"TransMode\":\"1\",\r\n         \"ReasonRem\":\"Flood\"\r\n   \r\n}"
+				},
+				"url": {
+					"raw": "https://gsp.adaequare.com/test/enriched/ewb/ewayapi?action=REGENTRIPSHEET",
+					"protocol": "https",
+					"host": [
+						"gsp",
+						"adaequare",
+						"com"
+					],
+					"path": [
+						"test",
+						"enriched",
+						"ewb",
+						"ewayapi"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "REGENTRIPSHEET"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

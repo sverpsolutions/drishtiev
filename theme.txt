@@ -1,0 +1,22 @@
+"I need to build a left sidebar navigation menu that perfectly matches the visual theme and typography of my existing software. Please use the following CSS design tokens and specifications:
+
+1. Typography (Font Stack):
+
+Font Family: 'Segoe UI', system-ui, sans-serif;
+Base Font Size: 0.875rem for links, 0.7rem for section headers, 0.95rem for the brand name.
+Font Weight: 400 (normal) for default links, 600 (semibold) for active links, 700 (bold) for the brand text, and 800 (extra bold) for uppercase section headers.
+2. Color Palette & Theme:
+
+Sidebar Background Color: #1B3A6B (Deep Navy Blue)
+Default Text & Icon Color: #b8ccec (Soft Light Blue)
+Hover State: Background should be #ffffff14 (White at ~8% opacity) with text/icons turning solid White (#fff).
+Active State (Selected Menu Item): Background should be #0891B2 (Teal/Cyan) with text/icons turning solid White (#fff).
+Section Headers: Text color #5d85b5 with uppercase text transform and 1.2px letter spacing.
+3. Layout & Structure:
+
+Width: Fixed at 260px.
+Brand/Logo Area: Located at the top with 1.25rem 1rem padding, a 1px solid #ffffff18 bottom border, and flexbox alignment for the logo and text.
+Menu Links: Should have 6px border-radius, .55rem 1rem padding, and 2px 8px margins to give a slightly 'floating' pill effect rather than full-width blocks.
+Icons: Use Bootstrap Icons (or similar) set to 1rem size with a fixed width of 20px for perfect vertical alignment.
+Transitions: Add smooth .15s transitions for both background color and text color on hover.
+Please generate the HTML and CSS utilizing exactly these values so the aesthetic is a 1:1 match with my primary application."

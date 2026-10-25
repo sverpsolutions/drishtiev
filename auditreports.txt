@@ -1,0 +1,49 @@
+1. Fix first: open bugs and risks
+#	Item	Why
+1	Remove or lock the 4 debug files (Debug.php, Debug_check2.php, MigratePrint.php, Update_cp_temp.php)	Anyone who knows the URL can open them, with no login needed.
+2	Offline bill without a customer fails to sync	Bill OFF-STORE-000037 (₹100) on shoperp was lost; offline bills with no customer need to go to the walk-in customer.
+3	Day-end cron	The URL is fixed on shoperp. Still to confirm tomorrow's run works (the secret key may not match), and add a warning on screen if the day isn't closed by morning.
+4	Server process limit (92/120 on Hostinger)	The site can freeze when the limit is hit. The fix plan is ready and waiting for your approval.
+5	Document number duplicates	The first-number bug is fixed on testncg only.
+6	Automatic daily database backup	Today a backup only happens during emergency day close.
+2. More sales and repeat customers
+#	Feature	Status
+7	Loyalty points (earn and redeem at billing)	Built on testncg; roll out to the other sites.
+8	Coupon codes (e.g. DIWALI100, single or multi-use, expiry)	Not built.
+9	Gift cards / vouchers (sell, check balance, redeem as payment)	Not built.
+10	Online payments (Razorpay/PhonePe: UPI QR on the bill, auto-confirmed)	Today UPI is a static QR with manual checking.
+11	SMS / WhatsApp bill sending (bill link, due reminders, offers)	A basic SMS manager exists; no gateway such as MSG91 is connected.
+12	Customer credit limit alert and due reminders (auto WhatsApp after X days)	Partly built.
+3. Owner control and reports
+#	Feature
+13	Owner mobile dashboard: live sales, cash, stock alerts and day close from the phone (an OwnerApp exists; expand it).
+14	Daily summary on WhatsApp/email at night: sales, cash, dues, discounts, price overrides, deleted items.
+15	Profit report per bill and per item: margin after scheme and discount.
+16	Reorder / auto purchase order: from sales speed and minimum stock, supplier-wise (suggestions exist; add one-click PO).
+17	Expiry and batch alerts: items expiring in 30 days, plus a dead-stock clearance list.
+18	Cashier fraud checks: void, delete, discount and price-change counts per cashier, with alerts.
+4. Staff and operations
+#	Feature
+19	Staff attendance and salary (check-in at login, monthly salary sheet).
+20	Staff sales incentive/commission per bill or brand.
+21	Two-step login (OTP) for admin/owner.
+22	Supplier rating (on-time delivery, short supply, returns).
+5. Compliance and accounting
+#	Feature	Status
+23	E-invoice / e-way bill	Built on testncg (GSTZen/Adaequare); roll out to live sites once tested.
+24	TDS/TCS on supplier payments	Not built.
+25	Accounting auto-posting (sales, purchase and payments into the ledger automatically)	Phase 1 built; auto-posting is switched off.
+26	Tally export (vouchers as XML)	Many accountants ask for this.
+6. Customer-facing
+#	Feature
+27	Online store / WhatsApp ordering with delivery tracking (portal exists; add order status updates on WhatsApp).
+28	Digital bill by QR/SMS instead of paper, plus a customer feedback rating.
+29	Hindi language option for cashier screens.
+My recommended order
+This week: #1 to #6. These are safety items, mostly small.
+Next: #7 loyalty rollout, #8 coupons, #10 UPI auto-confirm and #14 nightly owner summary. These bring the fastest visible value.
+Then: #16 auto PO, #18 cashier fraud checks and #19 staff attendance.
+
+Tell me which numbers to start with and on which sites (shoperp, guptabros, ncg, testncg), and I'll plan and build them one by one.
+
+Still pending from earlier: the stock report MRP/Excel fix (code is ready; it needs testing and uploading to guptabros and shoperp) and the TRO/TRI upload to ncg and testncg after 10pm.

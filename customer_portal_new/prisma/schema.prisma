@@ -1,0 +1,2249 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model audit_logs {
+  id            Int      @id @default(autoincrement())
+  module        String   @db.VarChar(50)
+  action        String   @db.VarChar(50)
+  record_id     Int
+  record_no     String?  @db.VarChar(50)
+  old_data      String?  @db.Text
+  new_data      String?  @db.Text
+  old_amount    Decimal? @db.Decimal(12, 2)
+  new_amount    Decimal? @db.Decimal(12, 2)
+  description   String?  @db.Text
+  user_id       Int
+  user_name     String?  @db.VarChar(100)
+  ip_address    String?  @db.VarChar(45)
+  location_id   Int?
+  location_name String?  @db.VarChar(100)
+  created_at    DateTime @default(now()) @db.DateTime(0)
+
+  @@index([created_at], map: "idx_audit_date")
+  @@index([module, record_id], map: "idx_audit_module")
+  @@index([user_id], map: "idx_audit_user")
+}
+
+model brands {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(150)
+  image  String?  @db.VarChar(255)
+  status Boolean? @default(true)
+}
+
+model business_days {
+  id                  Int                   @id @default(autoincrement())
+  business_date       DateTime              @unique(map: "business_date") @db.Date
+  opened_by           Int
+  opened_at           DateTime              @db.DateTime(0)
+  closed_by           Int?
+  closed_at           DateTime?             @db.DateTime(0)
+  status              business_days_status? @default(open)
+  open_remarks        String?               @db.Text
+  total_sales         Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_cash          Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_upi           Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_card          Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_bank          Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_wallet        Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_discounts     Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_taxes         Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_shortage      Decimal?              @default(0.00) @db.Decimal(15, 2)
+  total_excess        Decimal?              @default(0.00) @db.Decimal(15, 2)
+  created_at          DateTime?             @default(now()) @db.DateTime(0)
+  total_gift_voucher  Decimal?              @default(0.00) @db.Decimal(15, 2)
+  is_emergency_close  Boolean               @default(false)
+  emergency_reason    String?               @db.VarChar(255)
+  emergency_closed_by Int?
+  total_refunds       Decimal               @default(0.00) @db.Decimal(15, 2)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cashier_shifts {
+  id                  Int                    @id @default(autoincrement())
+  business_date       DateTime               @db.Date
+  cashier_id          Int
+  shift_name          String?                @default("General") @db.VarChar(50)
+  system_name         String?                @db.VarChar(100)
+  terminal_no         String?                @db.VarChar(20)
+  opened_at           DateTime               @db.DateTime(0)
+  opening_cash        Decimal                @default(0.00) @db.Decimal(15, 2)
+  remarks             String?                @db.Text
+  closed_at           DateTime?              @db.DateTime(0)
+  status              cashier_shifts_status? @default(open)
+  system_cash         Decimal?               @default(0.00) @db.Decimal(15, 2)
+  system_upi          Decimal?               @default(0.00) @db.Decimal(15, 2)
+  system_card         Decimal?               @default(0.00) @db.Decimal(15, 2)
+  system_bank         Decimal?               @default(0.00) @db.Decimal(15, 2)
+  system_wallet       Decimal?               @default(0.00) @db.Decimal(15, 2)
+  system_credit       Decimal?               @default(0.00) @db.Decimal(15, 2)
+  actual_cash         Decimal?               @default(0.00) @db.Decimal(15, 2)
+  actual_upi          Decimal?               @default(0.00) @db.Decimal(15, 2)
+  actual_card         Decimal?               @default(0.00) @db.Decimal(15, 2)
+  actual_bank         Decimal?               @default(0.00) @db.Decimal(15, 2)
+  actual_wallet       Decimal?               @default(0.00) @db.Decimal(15, 2)
+  diff_cash           Decimal?               @default(0.00) @db.Decimal(15, 2)
+  diff_upi            Decimal?               @default(0.00) @db.Decimal(15, 2)
+  diff_card           Decimal?               @default(0.00) @db.Decimal(15, 2)
+  diff_total          Decimal?               @default(0.00) @db.Decimal(15, 2)
+  short_amount        Decimal?               @default(0.00) @db.Decimal(15, 2)
+  excess_amount       Decimal?               @default(0.00) @db.Decimal(15, 2)
+  created_at          DateTime?              @default(now()) @db.DateTime(0)
+  denomination_data   String?                @db.Text
+  denom_total         Decimal?               @default(0.00) @db.Decimal(12, 2)
+  system_gift_voucher Decimal?               @default(0.00) @db.Decimal(15, 2)
+  actual_gift_voucher Decimal?               @default(0.00) @db.Decimal(15, 2)
+  diff_gift_voucher   Decimal?               @default(0.00) @db.Decimal(15, 2)
+  diff_bank           Decimal?               @default(0.00) @db.Decimal(15, 2)
+  diff_wallet         Decimal?               @default(0.00) @db.Decimal(15, 2)
+  close_remarks       String?                @db.Text
+  closed_by           Int?
+  is_emergency_closed Boolean                @default(false)
+  emergency_reason    String?                @db.VarChar(255)
+
+  @@index([cashier_id], map: "idx_cashier_id")
+  @@index([business_date], map: "idx_date")
+  @@index([status], map: "idx_status")
+}
+
+model categories {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(150)
+  parent_id     Int?     @default(0)
+  status        Boolean? @default(true)
+  image         String?  @db.VarChar(255)
+  display_order Int?     @default(0)
+}
+
+model ci_sessions {
+  id         String @db.VarChar(128)
+  ip_address String @db.VarChar(45)
+  timestamp  Int    @default(0) @db.UnsignedInt
+  data       Bytes  @db.MediumBlob
+
+  @@id([id, ip_address])
+  @@index([timestamp], map: "ci_sessions_timestamp")
+}
+
+model company_settings {
+  id                          Int     @id @default(autoincrement())
+  key_name                    String  @unique(map: "key_name") @db.VarChar(50)
+  key_value                   String? @db.Text
+  enable_estimate_stock_check Boolean @default(true)
+  block_estimate_if_no_stock  Boolean @default(false)
+  enable_bill_modify          Boolean @default(true)
+  enable_excel_import         Boolean @default(true)
+  enable_gst                  Boolean @default(true)
+  default_cash_sale_mode      Boolean @default(false)
+  low_stock_threshold         Int     @default(5)
+}
+
+model customer_wallet_transactions {
+  id               Int                                           @id @default(autoincrement())
+  customer_id      Int
+  transaction_type customer_wallet_transactions_transaction_type
+  amount           Decimal                                       @db.Decimal(12, 2)
+  opening_balance  Decimal                                       @db.Decimal(12, 2)
+  closing_balance  Decimal                                       @db.Decimal(12, 2)
+  reference_type   String                                        @db.VarChar(50)
+  reference_id     Int?
+  reference_no     String?                                       @db.VarChar(50)
+  remarks          String?                                       @db.Text
+  branch_id        Int                                           @default(0)
+  created_by       Int
+  created_at       DateTime                                      @db.DateTime(0)
+
+  @@index([created_at], map: "created_at")
+  @@index([customer_id], map: "customer_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model customers {
+  id                        Int               @id @default(autoincrement())
+  name                      String            @db.VarChar(150)
+  phone                     String            @db.VarChar(15)
+  email                     String?           @db.VarChar(100)
+  address                   String?           @db.Text
+  city                      String?           @db.VarChar(80)
+  state                     String?           @default("Delhi") @db.VarChar(80)
+  pincode                   String?           @db.VarChar(10)
+  type                      customers_type    @default(retail)
+  gst_number                String?           @db.VarChar(20)
+  credit_limit              Decimal           @default(0.00) @db.Decimal(12, 2)
+  balance                   Decimal           @default(0.00) @db.Decimal(12, 2)
+  wallet_balance            Decimal           @default(0.00) @db.Decimal(12, 2)
+  opening_balance           Decimal           @default(0.00) @db.Decimal(12, 2)
+  status                    Boolean           @default(true)
+  created_at                DateTime          @default(now()) @db.DateTime(0)
+  updated_at                DateTime          @default(now()) @db.DateTime(0)
+  show_outstanding_in_print Boolean           @default(false)
+  portal_active             Boolean           @default(true)
+  portal_token              String?           @db.VarChar(64)
+  invoices                  invoices[]
+  order_requests            order_requests[]
+  product_reviews           product_reviews[]
+  sales_returns             sales_returns[]
+
+  @@index([portal_token], map: "idx_customers_portal_token")
+  @@index([phone], map: "idx_phone")
+  @@index([type], map: "idx_type")
+}
+
+model device_authorizations {
+  id           Int                           @id @default(autoincrement())
+  user_id      Int
+  device_id    String                        @db.VarChar(64)
+  device_label String?                       @db.VarChar(100)
+  browser      String?                       @db.VarChar(150)
+  os           String?                       @db.VarChar(100)
+  ip_address   String?                       @db.VarChar(45)
+  screen_info  String?                       @db.VarChar(50)
+  status       device_authorizations_status? @default(pending)
+  requested_at DateTime?                     @default(now()) @db.DateTime(0)
+  reviewed_by  Int?
+  reviewed_at  DateTime?                     @db.DateTime(0)
+  last_login   DateTime?                     @db.DateTime(0)
+  login_count  Int?                          @default(0)
+
+  @@unique([user_id, device_id], map: "uniq_user_device")
+  @@index([status], map: "idx_status")
+}
+
+model entry_draft_items {
+  id               Int          @id @default(autoincrement()) @db.UnsignedInt
+  draft_id         Int          @db.UnsignedInt
+  product_id       Int          @db.UnsignedInt
+  po_item_id       Int?         @db.UnsignedInt
+  barcode          String?      @db.VarChar(50)
+  batch_no         String?      @db.VarChar(50)
+  expiry_date      DateTime?    @db.Date
+  mrp              Decimal?     @db.Decimal(12, 2)
+  rate             Decimal?     @db.Decimal(12, 2)
+  gst_percent      Decimal?     @db.Decimal(5, 2)
+  qty              Decimal?     @db.Decimal(12, 2)
+  free_qty         Decimal?     @db.Decimal(12, 2)
+  received_qty     Decimal?     @db.Decimal(12, 2)
+  accepted_qty     Decimal?     @db.Decimal(12, 2)
+  rejected_qty     Decimal?     @db.Decimal(12, 2)
+  rejection_reason String?      @db.VarChar(255)
+  discount_percent Decimal?     @db.Decimal(6, 2)
+  discount_amount  Decimal?     @db.Decimal(12, 2)
+  tax_amount       Decimal?     @db.Decimal(12, 2)
+  total_amount     Decimal?     @db.Decimal(12, 2)
+  scan_sequence    Int?         @db.UnsignedInt
+  entry_drafts     entry_drafts @relation(fields: [draft_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_entry_draft_items_draft")
+
+  @@index([draft_id], map: "idx_draft")
+}
+
+model entry_drafts {
+  id                Int                     @id @default(autoincrement()) @db.UnsignedInt
+  entry_type        entry_drafts_entry_type
+  user_id           Int                     @db.UnsignedInt
+  supplier_id       Int?                    @db.UnsignedInt
+  po_id             Int?                    @db.UnsignedInt
+  invoice_no        String?                 @db.VarChar(50)
+  invoice_date      DateTime?               @db.Date
+  payment_mode      String?                 @db.VarChar(30)
+  remarks           String?                 @db.Text
+  location_id       Int?                    @db.UnsignedInt
+  header_json       String?                 @db.Text
+  status            entry_drafts_status     @default(in_progress)
+  locked_by         Int?                    @db.UnsignedInt
+  locked_at         DateTime?               @db.DateTime(0)
+  created_at        DateTime                @db.DateTime(0)
+  last_modified_at  DateTime                @db.DateTime(0)
+  last_autosaved_at DateTime?               @db.DateTime(0)
+  completed_ref_id  Int?                    @db.UnsignedInt
+  entry_draft_items entry_draft_items[]
+
+  @@index([last_modified_at], map: "idx_last_modified")
+  @@index([entry_type, status], map: "idx_type_status")
+  @@index([user_id, status], map: "idx_user_status")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model error_logs {
+  id          Int      @id @default(autoincrement())
+  severity    String   @db.VarChar(30)
+  message     String   @db.Text
+  file        String?  @db.VarChar(500)
+  line        Int?
+  url         String?  @db.VarChar(500)
+  method      String?  @db.VarChar(10)
+  user_id     Int?
+  user_name   String?  @db.VarChar(100)
+  ip_address  String?  @db.VarChar(45)
+  is_resolved Boolean  @default(false)
+  created_at  DateTime @default(now()) @db.DateTime(0)
+
+  @@index([created_at], map: "idx_error_created")
+  @@index([is_resolved], map: "idx_error_resolved")
+  @@index([severity], map: "idx_error_severity")
+}
+
+model estimate_items {
+  id          Int       @id @default(autoincrement())
+  estimate_id Int
+  product_id  Int
+  item_code   String?   @db.VarChar(50)
+  description String    @db.VarChar(255)
+  qty         Decimal   @default(1.000) @db.Decimal(10, 3)
+  unit        String    @default("PCS") @db.VarChar(20)
+  rate        Decimal   @default(0.00) @db.Decimal(10, 2)
+  discount    Decimal   @default(0.00) @db.Decimal(5, 2)
+  tax_percent Decimal   @default(0.00) @db.Decimal(5, 2)
+  tax_amount  Decimal   @default(0.00) @db.Decimal(10, 2)
+  total       Decimal   @default(0.00) @db.Decimal(10, 2)
+  cost_price  Decimal   @default(0.00) @db.Decimal(10, 2)
+  estimates   estimates @relation(fields: [estimate_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "estimate_items_ibfk_1")
+
+  @@index([estimate_id], map: "estimate_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model estimates {
+  id              Int              @id @default(autoincrement())
+  estimate_no     String           @unique(map: "estimate_no") @db.VarChar(30)
+  customer_id     Int?
+  customer_name   String           @db.VarChar(150)
+  customer_mobile String?          @db.VarChar(15)
+  estimate_date   DateTime         @db.Date
+  valid_until     DateTime?        @db.Date
+  subtotal        Decimal          @default(0.00) @db.Decimal(12, 2)
+  total_discount  Decimal          @default(0.00) @db.Decimal(12, 2)
+  total_tax       Decimal          @default(0.00) @db.Decimal(12, 2)
+  total_amount    Decimal          @default(0.00) @db.Decimal(12, 2)
+  notes           String?          @db.Text
+  status          estimates_status @default(pending)
+  converted_to    Int?
+  closed_by       Int?
+  closed_at       DateTime?        @db.DateTime(0)
+  created_by      Int
+  created_at      DateTime         @default(now()) @db.DateTime(0)
+  updated_at      DateTime         @default(now()) @db.DateTime(0)
+  estimate_items  estimate_items[]
+
+  @@index([estimate_date], map: "idx_estimate_date")
+  @@index([status], map: "idx_estimate_status")
+}
+
+model grn {
+  id                    Int         @id @default(autoincrement())
+  grn_number            String      @unique(map: "uq_grn_number") @db.VarChar(30)
+  po_id                 Int?
+  supplier_id           Int
+  location_id           Int?
+  received_date         DateTime    @db.Date
+  vehicle_no            String?     @db.VarChar(30)
+  driver_name           String?     @db.VarChar(100)
+  supplier_invoice_no   String?     @db.VarChar(100)
+  supplier_invoice_date DateTime?   @db.Date
+  eway_bill             String?     @db.VarChar(50)
+  lr_number             String?     @db.VarChar(50)
+  status                grn_status? @default(pending)
+  gross_amount          Decimal?    @default(0.00) @db.Decimal(12, 2)
+  total_tax             Decimal?    @default(0.00) @db.Decimal(12, 2)
+  net_total             Decimal?    @default(0.00) @db.Decimal(12, 2)
+  qc_notes              String?     @db.Text
+  received_by           Int?
+  accepted_by           Int?
+  accepted_at           DateTime?   @db.DateTime(0)
+  created_at            DateTime?   @default(now()) @db.DateTime(0)
+
+  @@index([location_id], map: "idx_location_id")
+  @@index([received_date], map: "idx_received_date")
+  @@index([status], map: "idx_status")
+  @@index([supplier_id], map: "idx_supplier_id")
+}
+
+model grn_items {
+  id               Int       @id @default(autoincrement())
+  grn_id           Int
+  po_item_id       Int?
+  product_id       Int
+  ordered_qty      Decimal?  @default(0.00) @db.Decimal(10, 2)
+  received_qty     Decimal?  @default(0.00) @db.Decimal(10, 2)
+  accepted_qty     Decimal?  @default(0.00) @db.Decimal(10, 2)
+  rejected_qty     Decimal?  @default(0.00) @db.Decimal(10, 2)
+  rate             Decimal?  @default(0.00) @db.Decimal(12, 2)
+  gst_pct          Decimal?  @default(0.00) @db.Decimal(5, 2)
+  amount           Decimal?  @default(0.00) @db.Decimal(12, 2)
+  batch_no         String?   @db.VarChar(50)
+  expiry_date      DateTime? @db.Date
+  rejection_reason String?   @db.VarChar(255)
+
+  @@index([grn_id], map: "idx_grn_id")
+  @@index([product_id], map: "idx_product_id")
+}
+
+model hsn_master {
+  id           Int       @id @default(autoincrement())
+  hsn_code     String    @unique(map: "uk_hsn_code") @db.VarChar(20)
+  description  String    @default("") @db.VarChar(255)
+  igst_percent Decimal   @default(0.00) @db.Decimal(5, 2)
+  cgst_percent Decimal   @default(0.00) @db.Decimal(5, 2)
+  sgst_percent Decimal   @default(0.00) @db.Decimal(5, 2)
+  created_at   DateTime? @db.DateTime(0)
+}
+
+model invoice_bill_discounts {
+  id               Int                                  @id @default(autoincrement())
+  invoice_id       Int
+  invoice_no       String                               @db.VarChar(30)
+  discount_type    invoice_bill_discounts_discount_type @default(fixed)
+  discount_percent Decimal                              @default(0.00) @db.Decimal(5, 2)
+  discount_amount  Decimal                              @default(0.00) @db.Decimal(12, 2)
+  reason           String                               @db.VarChar(255)
+  applied_by       Int
+  applied_by_name  String                               @db.VarChar(100)
+  applied_at       DateTime                             @default(now()) @db.DateTime(0)
+
+  @@index([invoice_id], map: "idx_invoice_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model invoice_edit_log {
+  id             Int      @id @default(autoincrement())
+  invoice_id     Int
+  invoice_no     String   @db.VarChar(30)
+  edit_type      String   @default("modify") @db.VarChar(50)
+  old_items      String?  @db.LongText
+  new_items      String?  @db.LongText
+  old_total      Decimal? @db.Decimal(12, 2)
+  new_total      Decimal? @db.Decimal(12, 2)
+  reason         String?  @db.Text
+  edited_by      Int
+  edited_by_name String?  @db.VarChar(100)
+  ip_address     String?  @db.VarChar(45)
+  edited_at      DateTime @default(now()) @db.DateTime(0)
+
+  @@index([invoice_id], map: "idx_iel_invoice")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model invoice_items {
+  id           Int      @id @default(autoincrement())
+  invoice_id   Int
+  product_id   Int
+  plu_id       Int?
+  batch_no     String?  @db.VarChar(50)
+  product_name String   @db.VarChar(150)
+  hsn_code     String?  @db.VarChar(20)
+  qty          Int      @default(1)
+  unit         String   @default("PCS") @db.VarChar(20)
+  rate         Decimal  @db.Decimal(10, 2)
+  mrp          Decimal? @default(0.00) @db.Decimal(12, 2)
+  discount     Decimal  @default(0.00) @db.Decimal(10, 2)
+  taxable_amt  Decimal  @default(0.00) @db.Decimal(10, 2)
+  gst_percent  Decimal  @default(0.00) @db.Decimal(5, 2)
+  gst_amount   Decimal  @default(0.00) @db.Decimal(10, 2)
+  total        Decimal  @default(0.00) @db.Decimal(10, 2)
+  cgst_percent Decimal  @default(0.00) @db.Decimal(5, 2)
+  sgst_percent Decimal  @default(0.00) @db.Decimal(5, 2)
+  igst_percent Decimal  @default(0.00) @db.Decimal(5, 2)
+  cgst_amount  Decimal  @default(0.00) @db.Decimal(10, 2)
+  sgst_amount  Decimal  @default(0.00) @db.Decimal(10, 2)
+  igst_amount  Decimal  @default(0.00) @db.Decimal(10, 2)
+  invoice_no   String?  @db.VarChar(30)
+  invoices     invoices @relation(fields: [invoice_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "invoice_items_ibfk_1")
+  products     products @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "invoice_items_ibfk_2")
+
+  @@index([invoice_id], map: "idx_invoice")
+  @@index([product_id], map: "idx_product_id")
+}
+
+model invoice_payment_splits {
+  id           Int                                 @id @default(autoincrement())
+  invoice_id   Int
+  payment_mode invoice_payment_splits_payment_mode
+  amount       Decimal                             @default(0.00) @db.Decimal(12, 2)
+  card_type    invoice_payment_splits_card_type?
+  card_last4   String?                             @db.VarChar(4)
+  card_ref     String?                             @db.VarChar(80)
+  bank_name    String?                             @db.VarChar(100)
+  reference_no String?                             @db.VarChar(100)
+  notes        String?                             @db.VarChar(255)
+  created_at   DateTime                            @default(now()) @db.DateTime(0)
+
+  @@index([invoice_id], map: "idx_invoice_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model invoices {
+  id                     Int                         @id @default(autoincrement())
+  invoice_no             String                      @unique(map: "invoice_no") @db.VarChar(30)
+  customer_id            Int
+  invoice_type           invoices_invoice_type       @default(retail)
+  invoice_date           DateTime                    @db.Date
+  subtotal               Decimal                     @default(0.00) @db.Decimal(12, 2)
+  discount               Decimal                     @default(0.00) @db.Decimal(12, 2)
+  taxable_amount         Decimal                     @default(0.00) @db.Decimal(12, 2)
+  cgst_amount            Decimal                     @default(0.00) @db.Decimal(12, 2)
+  sgst_amount            Decimal                     @default(0.00) @db.Decimal(12, 2)
+  igst_amount            Decimal                     @default(0.00) @db.Decimal(12, 2)
+  total_gst              Decimal                     @default(0.00) @db.Decimal(12, 2)
+  cd_percent             Decimal                     @default(0.00) @db.Decimal(5, 2)
+  cd_amount              Decimal                     @default(0.00) @db.Decimal(12, 2)
+  round_off              Decimal                     @default(0.00) @db.Decimal(6, 2)
+  bill_discount_type     invoices_bill_discount_type @default(none)
+  bill_discount_percent  Decimal                     @default(0.00) @db.Decimal(5, 2)
+  bill_discount_amount   Decimal                     @default(0.00) @db.Decimal(12, 2)
+  bill_discount_reason   String?                     @db.VarChar(255)
+  bill_discount_by       Int?
+  multi_payment          Boolean                     @default(false)
+  credit_due_date        DateTime?                   @db.Date
+  total_amount           Decimal                     @default(0.00) @db.Decimal(12, 2)
+  paid_amount            Decimal                     @default(0.00) @db.Decimal(12, 2)
+  due_amount             Decimal                     @default(0.00) @db.Decimal(12, 2)
+  wallet_amount_used     Decimal                     @default(0.00) @db.Decimal(12, 2)
+  wallet_amount_credited Decimal                     @default(0.00) @db.Decimal(12, 2)
+  payment_mode           invoices_payment_mode       @default(credit)
+  is_interstate          Boolean                     @default(false)
+  notes                  String?                     @db.Text
+  status                 invoices_status             @default(draft)
+  created_by             Int
+  created_at             DateTime                    @default(now()) @db.DateTime(0)
+  updated_at             DateTime                    @default(now()) @db.DateTime(0)
+  is_delivery            Boolean                     @default(false)
+  shift_id               Int?
+  device_label           String?                     @db.VarChar(50)
+  location_id            Int                         @default(1)
+  offline_ref            String?                     @db.VarChar(60)
+  invoice_items          invoice_items[]
+  customers              customers                   @relation(fields: [customer_id], references: [id], onUpdate: Restrict, map: "invoices_ibfk_1")
+  users                  users                       @relation(fields: [created_by], references: [id], onUpdate: Restrict, map: "invoices_ibfk_2")
+
+  @@index([created_by], map: "created_by")
+  @@index([customer_id], map: "idx_customer")
+  @@index([invoice_date], map: "idx_invoice_date")
+  @@index([offline_ref], map: "idx_offline_ref")
+  @@index([status], map: "idx_status")
+}
+
+model locations {
+  id         Int            @id @default(autoincrement())
+  name       String         @db.VarChar(100)
+  code       String         @unique(map: "code") @db.VarChar(10)
+  type       locations_type @default(outlet)
+  address    String?        @db.Text
+  phone      String?        @db.VarChar(20)
+  gstin      String?        @db.VarChar(20)
+  email      String?        @db.VarChar(100)
+  city       String?        @db.VarChar(100)
+  state      String?        @default("Uttar Pradesh") @db.VarChar(100)
+  pincode    String?        @db.VarChar(10)
+  pan        String?        @db.VarChar(20)
+  manager_id Int?
+  status     Boolean        @default(true)
+  sort_order Int            @default(0)
+  created_at DateTime       @default(now()) @db.DateTime(0)
+  updated_at DateTime       @default(now()) @db.DateTime(0)
+
+  @@index([status], map: "idx_status")
+  @@index([type], map: "idx_type")
+}
+
+model module_permissions {
+  id         Int     @id @default(autoincrement())
+  user_id    Int
+  module_key String  @db.VarChar(50)
+  is_enabled Boolean @default(true)
+  users      users   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "module_permissions_ibfk_1")
+
+  @@unique([user_id, module_key], map: "uniq_user_module")
+}
+
+model offline_counters {
+  device_id     String   @id @db.VarChar(128)
+  location_code String   @default("STORE01") @db.VarChar(20)
+  last_counter  Int      @default(0) @db.UnsignedInt
+  updated_at    DateTime @default(now()) @db.Timestamp(0)
+}
+
+model offline_invoice_mapping {
+  id               Int      @id @default(autoincrement())
+  offline_ref      String   @unique(map: "uk_offline_ref") @db.VarChar(60)
+  cloud_invoice_id Int
+  cloud_invoice_no String   @db.VarChar(60)
+  device_id        String   @db.VarChar(128)
+  synced_at        DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([cloud_invoice_id], map: "idx_cloud_id")
+}
+
+model offline_sync_log {
+  id              Int                     @id @default(autoincrement())
+  device_id       String                  @db.VarChar(128)
+  user_id         Int?
+  total_pushed    Int                     @default(0) @db.SmallInt
+  total_failed    Int                     @default(0) @db.SmallInt
+  sync_started_at DateTime                @default(now()) @db.Timestamp(0)
+  sync_ended_at   DateTime?               @db.Timestamp(0)
+  status          offline_sync_log_status @default(running)
+  notes           String?                 @db.Text
+  created_at      DateTime                @default(now()) @db.Timestamp(0)
+
+  @@index([device_id], map: "idx_device")
+  @@index([status], map: "idx_status")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model offline_sync_queue {
+  id          Int                           @id @default(autoincrement())
+  device_id   String                        @db.VarChar(128)
+  queue_type  offline_sync_queue_queue_type @default(invoice)
+  offline_ref String                        @db.VarChar(60)
+  payload     String                        @db.LongText
+  status      offline_sync_queue_status     @default(pending)
+  cloud_id    Int?
+  cloud_ref   String?                       @db.VarChar(60)
+  retry_count Int                           @default(0) @db.UnsignedTinyInt
+  last_error  String?                       @db.Text
+  location_id Int                           @default(1) @db.UnsignedSmallInt
+  user_id     Int?
+  created_at  DateTime                      @default(now()) @db.Timestamp(0)
+  synced_at   DateTime?                     @db.Timestamp(0)
+
+  @@index([device_id, status], map: "idx_device_status")
+  @@index([offline_ref], map: "idx_offline_ref")
+  @@index([status], map: "idx_status")
+}
+
+model order_request_items {
+  id             Int            @id @default(autoincrement())
+  order_id       Int
+  product_id     Int
+  product_name   String         @db.VarChar(150)
+  mrp            Decimal        @default(0.00) @db.Decimal(10, 2)
+  qty            Int            @default(1)
+  unit           String         @default("PCS") @db.VarChar(20)
+  notes          String?        @db.VarChar(255)
+  order_requests order_requests @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "order_request_items_ibfk_1")
+  products       products       @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "order_request_items_ibfk_2")
+
+  @@index([order_id], map: "order_id")
+  @@index([product_id], map: "product_id")
+}
+
+model order_requests {
+  id                  Int                   @id @default(autoincrement())
+  request_no          String                @unique(map: "request_no") @db.VarChar(30)
+  customer_id         Int
+  status              order_requests_status @default(pending)
+  notes               String?               @db.Text
+  invoice_id          Int?
+  delivery_charge     Decimal?              @default(0.00) @db.Decimal(10, 2)
+  delivery_slot       String?               @db.VarChar(100)
+  delivery_distance   Decimal?              @default(0.00) @db.Decimal(5, 2)
+  total_amount        Decimal?              @default(0.00) @db.Decimal(10, 2)
+  created_at          DateTime              @default(now()) @db.DateTime(0)
+  updated_at          DateTime              @default(now()) @db.DateTime(0)
+  order_request_items order_request_items[]
+  customers           customers             @relation(fields: [customer_id], references: [id], onUpdate: Restrict, map: "order_requests_ibfk_1")
+
+  @@index([customer_id], map: "customer_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model payments {
+  id           Int                 @id @default(autoincrement())
+  payment_no   String              @unique(map: "payment_no") @db.VarChar(30)
+  type         payments_type
+  ref_type     payments_ref_type
+  ref_id       Int
+  party_id     Int
+  party_type   payments_party_type
+  amount       Decimal             @db.Decimal(12, 2)
+  payment_mode String              @default("cash") @db.VarChar(50)
+  reference_no String?             @db.VarChar(50)
+  payment_date DateTime            @db.Date
+  notes        String?             @db.Text
+  created_by   Int
+  created_at   DateTime            @default(now()) @db.DateTime(0)
+  shift_id     Int?
+  users        users               @relation(fields: [created_by], references: [id], onUpdate: Restrict, map: "payments_ibfk_1")
+
+  @@index([created_by], map: "created_by")
+  @@index([party_type, party_id], map: "idx_party")
+  @@index([payment_date], map: "idx_pay_date")
+  @@index([payment_date], map: "idx_payment_date")
+  @@index([ref_type, ref_id], map: "idx_ref")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model po_approval_config {
+  id            Int      @id @default(autoincrement())
+  level         Int
+  min_amount    Decimal? @default(0.00) @db.Decimal(12, 2)
+  max_amount    Decimal? @db.Decimal(12, 2)
+  approver_role String?  @db.VarChar(50)
+  approver_id   Int?
+  label         String?  @db.VarChar(100)
+  active        Boolean? @default(true)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model po_approval_log {
+  id            Int      @id @default(autoincrement())
+  po_id         Int
+  action        String   @db.VarChar(50)
+  level         Int?     @default(1)
+  user_id       Int?
+  approver_name String?  @db.VarChar(150)
+  remarks       String?  @db.Text
+  created_at    DateTime @default(now()) @db.DateTime(0)
+
+  @@index([action], map: "idx_action")
+  @@index([po_id], map: "idx_po")
+}
+
+model product_barcodes {
+  id             Int                         @id @default(autoincrement())
+  product_id     Int
+  barcode        String                      @db.VarChar(150)
+  unit_type      product_barcodes_unit_type? @default(PCS)
+  qty_multiplier Int?                        @default(1)
+
+  @@index([barcode], map: "idx_barcode")
+  @@index([product_id], map: "idx_product")
+}
+
+model product_location_stock {
+  id           Int      @id @default(autoincrement())
+  product_id   Int
+  location_id  Int
+  stock_qty    Decimal  @default(0.000) @db.Decimal(12, 3)
+  last_updated DateTime @default(now()) @db.DateTime(0)
+
+  @@unique([product_id, location_id], map: "uq_product_location")
+  @@index([location_id], map: "idx_location")
+  @@index([product_id], map: "idx_product")
+}
+
+model product_reviews {
+  id                   Int                    @id @default(autoincrement())
+  product_id           Int
+  customer_id          Int
+  customer_name        String                 @db.VarChar(150)
+  rating               Boolean
+  review_title         String?                @db.VarChar(255)
+  review_text          String?                @db.Text
+  status               product_reviews_status @default(approved)
+  is_verified_purchase Boolean                @default(false)
+  created_at           DateTime               @default(now()) @db.DateTime(0)
+  updated_at           DateTime               @default(now()) @db.DateTime(0)
+  products             products               @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "product_reviews_ibfk_1")
+  customers            customers              @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "product_reviews_ibfk_2")
+
+  @@index([customer_id], map: "idx_review_customer")
+  @@index([product_id], map: "idx_review_product")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model products {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar(150)
+  short_name            String?                 @db.VarChar(50)
+  item_code             String?                 @db.VarChar(50)
+  category              String                  @db.VarChar(100)
+  category_id           Int?
+  sub_category_id       Int?
+  subcategory           String?                 @db.VarChar(100)
+  brand                 String?                 @db.VarChar(100)
+  brand_id              Int?
+  group_id              Int?
+  department_id         Int?
+  hsn_code              String?                 @db.VarChar(20)
+  purchase_price        Decimal                 @default(0.00) @db.Decimal(10, 2)
+  selling_price         Decimal                 @default(0.00) @db.Decimal(10, 2)
+  wsp                   Decimal                 @default(0.00) @db.Decimal(10, 2)
+  mrp                   Decimal?                @default(0.00) @db.Decimal(10, 2)
+  gst_percent           Decimal                 @default(0.00) @db.Decimal(5, 2)
+  stock_qty             Int                     @default(0)
+  unit                  products_unit?          @default(PCS)
+  carton_size           Int?                    @default(1)
+  description           String?                 @db.Text
+  expiry_date           DateTime?               @db.Date
+  status                Boolean                 @default(true)
+  created_at            DateTime                @default(now()) @db.DateTime(0)
+  updated_at            DateTime                @default(now()) @db.DateTime(0)
+  cost_price            Decimal                 @default(0.00) @db.Decimal(10, 2)
+  basic_cost            Decimal                 @default(0.00) @db.Decimal(10, 2)
+  low_stock_threshold   Int                     @default(5)
+  max_stock             Int?                    @default(0)
+  hsn_id                Int?
+  image1                String?                 @db.VarChar(255)
+  image2                String?                 @db.VarChar(255)
+  image3                String?                 @db.VarChar(255)
+  ingredients           String?                 @db.Text
+  expiry_days           Int?                    @default(0)
+  is_veg                Boolean?                @default(true)
+  no_discount           Boolean                 @default(false)
+  invoice_items         invoice_items[]
+  order_request_items   order_request_items[]
+  product_reviews       product_reviews[]
+  purchase_items        purchase_items[]
+  purchase_return_items purchase_return_items[]
+
+  @@index([brand], map: "idx_brand")
+  @@index([category], map: "idx_category")
+  @@index([item_code], map: "idx_products_item_code")
+  @@index([status], map: "idx_products_status")
+}
+
+model purchase_approvals {
+  id          Int                        @id @default(autoincrement())
+  po_id       Int
+  level       Int
+  approver_id Int?
+  action      purchase_approvals_action? @default(pending)
+  remarks     String?                    @db.Text
+  acted_at    DateTime?                  @db.DateTime(0)
+  created_at  DateTime?                  @default(now()) @db.DateTime(0)
+
+  @@index([approver_id], map: "idx_approver_id")
+  @@index([po_id], map: "idx_po_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model purchase_items {
+  id               Int       @id @default(autoincrement())
+  purchase_id      Int
+  product_id       Int
+  plu_id           Int?
+  batch_no         String?   @db.VarChar(50)
+  mrp              Decimal?  @db.Decimal(10, 2)
+  expiry_date      DateTime? @db.Date
+  mfg_date         DateTime? @db.Date
+  qty              Int       @default(1)
+  unit             String    @default("PCS") @db.VarChar(20)
+  price            Decimal   @db.Decimal(10, 2)
+  basic_amount     Decimal?  @default(0.00) @db.Decimal(10, 2)
+  discount_percent Decimal?  @default(0.00) @db.Decimal(5, 2)
+  discount_amount  Decimal?  @default(0.00) @db.Decimal(10, 2)
+  taxable_amount   Decimal?  @default(0.00) @db.Decimal(10, 2)
+  gst_percent      Decimal   @default(0.00) @db.Decimal(5, 2)
+  gst_amount       Decimal   @default(0.00) @db.Decimal(10, 2)
+  total            Decimal   @default(0.00) @db.Decimal(10, 2)
+  purchases        purchases @relation(fields: [purchase_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "purchase_items_ibfk_1")
+  products         products  @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "purchase_items_ibfk_2")
+
+  @@index([product_id], map: "idx_product")
+  @@index([purchase_id], map: "idx_purchase")
+}
+
+model purchase_order_items {
+  id              Int       @id @default(autoincrement())
+  po_id           Int
+  product_id      Int
+  current_stock   Decimal?  @default(0.00) @db.Decimal(10, 2)
+  avg_daily_sales Decimal?  @default(0.000) @db.Decimal(10, 3)
+  suggested_qty   Decimal?  @default(0.00) @db.Decimal(10, 2)
+  ordered_qty     Decimal?  @default(0.00) @db.Decimal(10, 2)
+  received_qty    Decimal?  @default(0.00) @db.Decimal(10, 2)
+  rate            Decimal?  @default(0.00) @db.Decimal(12, 2)
+  discount_pct    Decimal?  @default(0.00) @db.Decimal(5, 2)
+  discount_amt    Decimal?  @default(0.00) @db.Decimal(12, 2)
+  gst_pct         Decimal?  @default(0.00) @db.Decimal(5, 2)
+  taxable_amt     Decimal?  @default(0.00) @db.Decimal(12, 2)
+  tax_amt         Decimal?  @default(0.00) @db.Decimal(12, 2)
+  amount          Decimal?  @default(0.00) @db.Decimal(12, 2)
+  free_qty        Decimal?  @default(0.00) @db.Decimal(10, 2)
+  batch_no        String?   @db.VarChar(50)
+  expiry_date     DateTime? @db.Date
+  unit            String?   @default("PCS") @db.VarChar(20)
+
+  @@index([po_id], map: "idx_po_id")
+  @@index([product_id], map: "idx_product_id")
+}
+
+model purchase_orders {
+  id                  Int                     @id @default(autoincrement())
+  po_number           String                  @unique(map: "uq_po_number") @db.VarChar(30)
+  supplier_id         Int
+  location_id         Int?
+  status              purchase_orders_status? @default(draft)
+  approval_level      Int?                    @default(0)
+  expected_delivery   DateTime?               @db.Date
+  delivery_address    String?                 @db.Text
+  payment_terms       String?                 @db.VarChar(100)
+  reference           String?                 @db.VarChar(100)
+  remarks             String?                 @db.Text
+  gross_amount        Decimal?                @default(0.00) @db.Decimal(12, 2)
+  total_discount      Decimal?                @default(0.00) @db.Decimal(12, 2)
+  total_tax           Decimal?                @default(0.00) @db.Decimal(12, 2)
+  freight_charges     Decimal?                @default(0.00) @db.Decimal(12, 2)
+  round_off           Decimal?                @default(0.00) @db.Decimal(6, 2)
+  net_total           Decimal?                @default(0.00) @db.Decimal(12, 2)
+  buyer_id            Int?
+  approved_by         Int?
+  approved_at         DateTime?               @db.DateTime(0)
+  vendor_confirmed_at DateTime?               @db.DateTime(0)
+  dispatched_at       DateTime?               @db.DateTime(0)
+  received_at         DateTime?               @db.DateTime(0)
+  visit_schedule_id   Int?
+  rfq_id              Int?
+  created_by          Int?
+  created_at          DateTime?               @default(now()) @db.DateTime(0)
+  updated_at          DateTime?               @db.DateTime(0)
+
+  @@index([created_at], map: "idx_created_at")
+  @@index([location_id], map: "idx_location_id")
+  @@index([status], map: "idx_status")
+  @@index([supplier_id], map: "idx_supplier_id")
+}
+
+model purchase_return_items {
+  id               Int              @id @default(autoincrement())
+  prn_id           Int
+  product_id       Int
+  qty              Int
+  price            Decimal          @db.Decimal(10, 2)
+  total            Decimal          @db.Decimal(10, 2)
+  purchase_returns purchase_returns @relation(fields: [prn_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "purchase_return_items_ibfk_1")
+  products         products         @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "purchase_return_items_ibfk_2")
+
+  @@index([prn_id], map: "prn_id")
+  @@index([product_id], map: "product_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model purchase_returns {
+  id                    Int                     @id @default(autoincrement())
+  prn_no                String                  @unique(map: "prn_no") @db.VarChar(30)
+  purchase_id           Int
+  supplier_id           Int
+  return_date           DateTime                @db.Date
+  total_amount          Decimal                 @default(0.00) @db.Decimal(12, 2)
+  reason                String?                 @db.Text
+  created_by            Int
+  created_at            DateTime                @default(now()) @db.DateTime(0)
+  purchase_return_items purchase_return_items[]
+  purchases             purchases               @relation(fields: [purchase_id], references: [id], onUpdate: Restrict, map: "purchase_returns_ibfk_1")
+  suppliers             suppliers               @relation(fields: [supplier_id], references: [id], onUpdate: Restrict, map: "purchase_returns_ibfk_2")
+  users                 users                   @relation(fields: [created_by], references: [id], onUpdate: Restrict, map: "purchase_returns_ibfk_3")
+
+  @@index([created_by], map: "created_by")
+  @@index([purchase_id], map: "purchase_id")
+  @@index([supplier_id], map: "supplier_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model purchases {
+  id               Int                    @id @default(autoincrement())
+  purchase_no      String                 @unique(map: "purchase_no") @db.VarChar(30)
+  supplier_id      Int
+  invoice_no       String?                @db.VarChar(50)
+  invoice_date     DateTime               @db.Date
+  subtotal         Decimal                @default(0.00) @db.Decimal(12, 2)
+  total_gst        Decimal                @default(0.00) @db.Decimal(12, 2)
+  total_amount     Decimal                @default(0.00) @db.Decimal(12, 2)
+  discount         Decimal                @default(0.00) @db.Decimal(12, 2)
+  taxable_amount   Decimal?               @default(0.00) @db.Decimal(12, 2)
+  paid_amount      Decimal                @default(0.00) @db.Decimal(12, 2)
+  due_amount       Decimal                @default(0.00) @db.Decimal(12, 2)
+  payment_mode     purchases_payment_mode @default(credit)
+  status           purchases_status       @default(draft)
+  notes            String?                @db.Text
+  location_id      Int                    @default(1)
+  created_by       Int
+  created_at       DateTime               @default(now()) @db.DateTime(0)
+  updated_at       DateTime               @default(now()) @db.DateTime(0)
+  purchase_items   purchase_items[]
+  purchase_returns purchase_returns[]
+  suppliers        suppliers              @relation(fields: [supplier_id], references: [id], onUpdate: Restrict, map: "purchases_ibfk_1")
+  users            users                  @relation(fields: [created_by], references: [id], onUpdate: Restrict, map: "purchases_ibfk_2")
+
+  @@index([created_by], map: "created_by")
+  @@index([invoice_date], map: "idx_invoice_date")
+  @@index([location_id], map: "idx_location_id")
+  @@index([status], map: "idx_status")
+  @@index([supplier_id], map: "idx_supplier")
+  @@index([supplier_id], map: "idx_supplier_id")
+}
+
+model refund_items {
+  id              Int     @id @default(autoincrement())
+  refund_id       Int
+  invoice_item_id Int?
+  product_id      Int
+  product_name    String  @db.VarChar(150)
+  hsn_code        String? @db.VarChar(20)
+  qty             Decimal @default(0.000) @db.Decimal(10, 3)
+  unit            String? @default("PCS") @db.VarChar(20)
+  rate            Decimal @default(0.00) @db.Decimal(12, 2)
+  taxable_amt     Decimal @default(0.00) @db.Decimal(12, 2)
+  gst_percent     Decimal @default(0.00) @db.Decimal(5, 2)
+  gst_amount      Decimal @default(0.00) @db.Decimal(12, 2)
+  total           Decimal @default(0.00) @db.Decimal(12, 2)
+
+  @@index([refund_id], map: "idx_refund_id")
+}
+
+model refunds {
+  id              Int                 @id @default(autoincrement())
+  refund_no       String              @unique(map: "refund_no") @db.VarChar(30)
+  invoice_id      Int
+  invoice_no      String              @db.VarChar(30)
+  customer_id     Int
+  refund_type     refunds_refund_type @default(partial)
+  refund_amount   Decimal             @default(0.00) @db.Decimal(12, 2)
+  refund_mode     refunds_refund_mode @default(cash)
+  reason          String              @db.Text
+  status          refunds_status      @default(processed)
+  notes           String?             @db.Text
+  created_by      Int
+  created_by_name String              @db.VarChar(100)
+  created_at      DateTime            @default(now()) @db.DateTime(0)
+
+  @@index([customer_id], map: "idx_customer_id")
+  @@index([invoice_id], map: "idx_invoice_id")
+}
+
+model rfq {
+  id          Int         @id @default(autoincrement())
+  rfq_number  String      @unique(map: "uq_rfq_number") @db.VarChar(30)
+  title       String?     @db.VarChar(200)
+  status      rfq_status? @default(draft)
+  valid_until DateTime?   @db.Date
+  notes       String?     @db.Text
+  created_by  Int?
+  buyer_id    Int?
+  department  String?     @db.VarChar(100)
+  location_id Int?
+  created_at  DateTime?   @default(now()) @db.DateTime(0)
+  updated_at  DateTime?   @db.DateTime(0)
+}
+
+model rfq_items {
+  id           Int      @id @default(autoincrement())
+  rfq_id       Int
+  product_id   Int?
+  description  String?  @db.VarChar(255)
+  qty          Decimal? @default(1.00) @db.Decimal(10, 2)
+  unit         String?  @default("PCS") @db.VarChar(20)
+  target_price Decimal? @db.Decimal(12, 2)
+  notes        String?  @db.VarChar(255)
+
+  @@index([rfq_id], map: "idx_rfq_id")
+}
+
+model rfq_quotations {
+  id            Int       @id @default(autoincrement())
+  rfq_id        Int
+  rfq_item_id   Int
+  supplier_id   Int
+  quoted_price  Decimal?  @default(0.00) @db.Decimal(12, 2)
+  discount_pct  Decimal?  @default(0.00) @db.Decimal(5, 2)
+  gst_pct       Decimal?  @default(0.00) @db.Decimal(5, 2)
+  delivery_days Int?      @default(0)
+  notes         String?   @db.VarChar(255)
+  submitted_at  DateTime? @default(now()) @db.DateTime(0)
+
+  @@index([rfq_id], map: "idx_rfq_id")
+  @@index([supplier_id], map: "idx_supplier_id")
+}
+
+model rfq_suppliers {
+  id          Int                   @id @default(autoincrement())
+  rfq_id      Int
+  supplier_id Int
+  sent_at     DateTime?             @db.DateTime(0)
+  status      rfq_suppliers_status? @default(pending)
+
+  @@index([rfq_id], map: "idx_rfq_id")
+  @@index([supplier_id], map: "idx_supplier_id")
+}
+
+model sales_return_items {
+  id               Int           @id @default(autoincrement())
+  sales_return_id  Int
+  product_id       Int?
+  product_name     String        @db.VarChar(200)
+  hsn_code         String?       @db.VarChar(20)
+  qty              Decimal       @default(0.000) @db.Decimal(10, 3)
+  unit             String        @default("PCS") @db.VarChar(20)
+  rate             Decimal       @default(0.00) @db.Decimal(10, 2)
+  discount_percent Decimal       @default(0.00) @db.Decimal(5, 2)
+  taxable_amt      Decimal       @default(0.00) @db.Decimal(10, 2)
+  gst_percent      Decimal       @default(0.00) @db.Decimal(5, 2)
+  cgst_percent     Decimal       @default(0.00) @db.Decimal(5, 2)
+  sgst_percent     Decimal       @default(0.00) @db.Decimal(5, 2)
+  igst_percent     Decimal       @default(0.00) @db.Decimal(5, 2)
+  cgst_amount      Decimal       @default(0.00) @db.Decimal(10, 2)
+  sgst_amount      Decimal       @default(0.00) @db.Decimal(10, 2)
+  igst_amount      Decimal       @default(0.00) @db.Decimal(10, 2)
+  gst_amount       Decimal       @default(0.00) @db.Decimal(10, 2)
+  total            Decimal       @default(0.00) @db.Decimal(10, 2)
+  sales_returns    sales_returns @relation(fields: [sales_return_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "sales_return_items_ibfk_1")
+
+  @@index([sales_return_id], map: "sales_return_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model sales_returns {
+  id                 Int                  @id @default(autoincrement())
+  return_number      String               @unique(map: "return_number") @db.VarChar(30)
+  credit_note_no     String?              @db.VarChar(30)
+  invoice_id         Int?
+  customer_id        Int
+  return_date        DateTime             @db.Date
+  reason             String?              @db.VarChar(255)
+  subtotal           Decimal              @default(0.00) @db.Decimal(12, 2)
+  discount           Decimal              @default(0.00) @db.Decimal(12, 2)
+  taxable_amount     Decimal              @default(0.00) @db.Decimal(12, 2)
+  cgst_amount        Decimal              @default(0.00) @db.Decimal(12, 2)
+  sgst_amount        Decimal              @default(0.00) @db.Decimal(12, 2)
+  igst_amount        Decimal              @default(0.00) @db.Decimal(12, 2)
+  total_gst          Decimal              @default(0.00) @db.Decimal(12, 2)
+  total_amount       Decimal              @default(0.00) @db.Decimal(12, 2)
+  refund_method      String               @default("balance") @db.VarChar(30)
+  is_interstate      Boolean              @default(false)
+  notes              String?              @db.Text
+  status             sales_returns_status @default(confirmed)
+  created_by         Int?
+  created_at         DateTime             @default(now()) @db.DateTime(0)
+  sales_return_items sales_return_items[]
+  customers          customers            @relation(fields: [customer_id], references: [id], onUpdate: Restrict, map: "sales_returns_ibfk_1")
+
+  @@index([customer_id], map: "customer_id")
+}
+
+model scheme_application_log {
+  id               Int                                 @id @default(autoincrement()) @db.UnsignedInt
+  invoice_id       Int
+  invoice_no       String                              @db.VarChar(30)
+  customer_id      Int
+  scheme_id        Int                                 @db.UnsignedInt
+  scheme_name      String                              @db.VarChar(150)
+  scheme_type      String                              @db.VarChar(30)
+  applied_on_qty   Decimal                             @default(0.000) @db.Decimal(10, 3)
+  applied_on_value Decimal                             @default(0.00) @db.Decimal(12, 2)
+  free_product_id  Int?
+  free_qty         Decimal                             @default(0.000) @db.Decimal(10, 3)
+  discount_given   Decimal                             @default(0.00) @db.Decimal(12, 2)
+  benefit_type     scheme_application_log_benefit_type
+  applied_by       Int?
+  applied_at       DateTime                            @default(now()) @db.DateTime(0)
+
+  @@index([customer_id], map: "idx_customer")
+  @@index([applied_at], map: "idx_date")
+  @@index([invoice_id], map: "idx_invoice")
+  @@index([scheme_id], map: "idx_scheme")
+}
+
+model scheme_free_items {
+  id              Int                        @id @default(autoincrement()) @db.UnsignedInt
+  scheme_id       Int                        @db.UnsignedInt
+  slab_id         Int?                       @db.UnsignedInt
+  free_product_id Int
+  free_qty        Decimal                    @default(1.000) @db.Decimal(10, 3)
+  free_uom        scheme_free_items_free_uom @default(pcs)
+  scheme_master   scheme_master              @relation(fields: [scheme_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "scheme_free_items_ibfk_1")
+
+  @@index([scheme_id], map: "scheme_id")
+}
+
+model scheme_item_map {
+  id            Int                      @id @default(autoincrement()) @db.UnsignedInt
+  scheme_id     Int                      @db.UnsignedInt
+  product_id    Int?
+  brand_id      Int?
+  category_id   Int?
+  map_type      scheme_item_map_map_type @default(trigger)
+  scheme_master scheme_master            @relation(fields: [scheme_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "scheme_item_map_ibfk_1")
+
+  @@index([scheme_id, brand_id], map: "idx_scheme_brand")
+  @@index([scheme_id, product_id], map: "idx_scheme_item")
+}
+
+model scheme_master {
+  id                      Int                              @id @default(autoincrement()) @db.UnsignedInt
+  name                    String                           @db.VarChar(150)
+  scheme_type_id          Int                              @db.UnsignedTinyInt
+  apply_on                scheme_master_apply_on           @default(item)
+  priority                Int                              @default(5) @db.UnsignedTinyInt
+  start_date              DateTime                         @db.Date
+  end_date                DateTime                         @db.Date
+  start_time              DateTime?                        @db.Time(0)
+  end_time                DateTime?                        @db.Time(0)
+  is_active               Boolean                          @default(true)
+  applicable_parties      scheme_master_applicable_parties @default(all)
+  min_qty                 Decimal                          @default(0.000) @db.Decimal(10, 3)
+  min_qty_uom             scheme_master_min_qty_uom        @default(pcs)
+  min_value               Decimal                          @default(0.00) @db.Decimal(12, 2)
+  discount_percent        Decimal                          @default(0.00) @db.Decimal(6, 2)
+  discount_value          Decimal                          @default(0.00) @db.Decimal(12, 2)
+  free_qty                Decimal                          @default(0.000) @db.Decimal(10, 3)
+  free_item_id            Int?
+  is_recursive            Boolean                          @default(false)
+  is_combination_allowed  Boolean                          @default(true)
+  max_benefit_per_invoice Decimal                          @default(0.00) @db.Decimal(12, 2)
+  expiry_days_trigger     Int?
+  target_amount           Decimal                          @default(0.00) @db.Decimal(15, 2)
+  target_period           scheme_master_target_period      @default(monthly)
+  credit_note_percent     Decimal                          @default(0.00) @db.Decimal(6, 2)
+  credit_note_timing      scheme_master_credit_note_timing @default(immediate)
+  carton_size             Int                              @default(1) @db.UnsignedSmallInt
+  notes                   String?                          @db.Text
+  created_by              Int?
+  created_at              DateTime                         @default(now()) @db.DateTime(0)
+  updated_at              DateTime                         @default(now()) @db.DateTime(0)
+  scheme_free_items       scheme_free_items[]
+  scheme_item_map         scheme_item_map[]
+  scheme_types            scheme_types                     @relation(fields: [scheme_type_id], references: [id], onUpdate: Restrict, map: "scheme_master_ibfk_1")
+  scheme_mixmatch_groups  scheme_mixmatch_groups[]
+  scheme_party_map        scheme_party_map[]
+  scheme_slabs            scheme_slabs[]
+
+  @@index([is_active, start_date, end_date], map: "idx_active_dates")
+  @@index([scheme_type_id], map: "idx_type")
+}
+
+model scheme_mixmatch_groups {
+  id                    Int                     @id @default(autoincrement()) @db.UnsignedInt
+  scheme_id             Int                     @db.UnsignedInt
+  group_name            String                  @default("Group A") @db.VarChar(80)
+  group_order           Int                     @default(1) @db.UnsignedTinyInt
+  min_qty_from_group    Decimal                 @default(1.000) @db.Decimal(10, 3)
+  scheme_master         scheme_master           @relation(fields: [scheme_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "scheme_mixmatch_groups_ibfk_1")
+  scheme_mixmatch_items scheme_mixmatch_items[]
+
+  @@index([scheme_id], map: "scheme_id")
+}
+
+model scheme_mixmatch_items {
+  id                     Int                    @id @default(autoincrement()) @db.UnsignedInt
+  group_id               Int                    @db.UnsignedInt
+  product_id             Int
+  scheme_mixmatch_groups scheme_mixmatch_groups @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "scheme_mixmatch_items_ibfk_1")
+
+  @@unique([group_id, product_id], map: "uq_group_product")
+}
+
+model scheme_party_map {
+  id            Int           @id @default(autoincrement()) @db.UnsignedInt
+  scheme_id     Int           @db.UnsignedInt
+  customer_id   Int
+  scheme_master scheme_master @relation(fields: [scheme_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "scheme_party_map_ibfk_1")
+
+  @@unique([scheme_id, customer_id], map: "uq_scheme_party")
+}
+
+model scheme_slabs {
+  id               Int           @id @default(autoincrement()) @db.UnsignedInt
+  scheme_id        Int           @db.UnsignedInt
+  slab_order       Int           @default(1) @db.UnsignedTinyInt
+  min_qty          Decimal       @default(0.000) @db.Decimal(10, 3)
+  max_qty          Decimal       @default(0.000) @db.Decimal(10, 3)
+  min_value        Decimal       @default(0.00) @db.Decimal(12, 2)
+  max_value        Decimal       @default(0.00) @db.Decimal(12, 2)
+  free_qty         Decimal       @default(0.000) @db.Decimal(10, 3)
+  discount_percent Decimal       @default(0.00) @db.Decimal(6, 2)
+  discount_value   Decimal       @default(0.00) @db.Decimal(12, 2)
+  free_item_id     Int?
+  scheme_master    scheme_master @relation(fields: [scheme_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "scheme_slabs_ibfk_1")
+
+  @@index([scheme_id], map: "idx_scheme")
+}
+
+model scheme_transactions {
+  id                       Int       @id @default(autoincrement())
+  scheme_id                Int
+  customer_id              Int
+  invoice_id               Int
+  invoice_date             DateTime  @db.Date
+  eligible_purchase_amount Decimal   @db.Decimal(15, 2)
+  bonus_discount_applied   Decimal   @db.Decimal(10, 2)
+  created_at               DateTime? @default(now()) @db.DateTime(0)
+
+  @@index([customer_id], map: "idx_customer_id")
+  @@index([invoice_id], map: "idx_invoice_id")
+  @@index([scheme_id], map: "idx_scheme_id")
+}
+
+model scheme_types {
+  id            Int             @id @db.UnsignedTinyInt
+  code          String          @unique(map: "code") @db.VarChar(30)
+  label         String          @db.VarChar(80)
+  description   String?         @db.VarChar(255)
+  scheme_master scheme_master[]
+}
+
+model schemes {
+  id                   Int                           @id @default(autoincrement())
+  name                 String                        @db.VarChar(150)
+  scheme_type          schemes_scheme_type
+  target_id            Int
+  target_amount        Decimal?                      @default(0.00) @db.Decimal(15, 2)
+  period_start         DateTime                      @db.Date
+  period_end           DateTime                      @db.Date
+  discount_percent     Decimal?                      @default(0.00) @db.Decimal(5, 2)
+  applicable_customers schemes_applicable_customers? @default(all)
+  status               Boolean?                      @default(true)
+  created_at           DateTime?                     @default(now()) @db.DateTime(0)
+  created_by           Int
+}
+
+model stock_adjustments {
+  id         Int       @id @default(autoincrement())
+  product_id Int
+  before_qty Int       @default(0)
+  adj_qty    Int
+  after_qty  Int       @default(0)
+  reason     String?   @db.VarChar(255)
+  created_by Int?
+  created_at DateTime? @db.DateTime(0)
+
+  @@index([product_id], map: "idx_adj_product")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model stock_ledger {
+  id          Int                   @id @default(autoincrement())
+  product_id  Int
+  txn_type    stock_ledger_txn_type
+  txn_id      Int?
+  txn_no      String?               @db.VarChar(50)
+  qty_in      Decimal               @default(0.000) @db.Decimal(10, 3)
+  qty_out     Decimal               @default(0.000) @db.Decimal(10, 3)
+  balance_qty Decimal               @default(0.000) @db.Decimal(10, 3)
+  rate        Decimal               @default(0.00) @db.Decimal(10, 2)
+  notes       String?               @db.VarChar(255)
+  created_by  Int?
+  created_at  DateTime              @default(now()) @db.DateTime(0)
+
+  @@index([product_id], map: "idx_product_id")
+  @@index([created_at], map: "idx_sl_date")
+  @@index([product_id], map: "idx_sl_product")
+  @@index([txn_type, txn_id], map: "idx_sl_txn")
+  @@index([txn_type], map: "idx_txn_type")
+}
+
+model stock_movement_log {
+  id             Int                              @id @default(autoincrement())
+  product_id     Int
+  product_name   String                           @db.VarChar(150)
+  location_id    Int
+  location_name  String                           @db.VarChar(100)
+  movement_type  stock_movement_log_movement_type
+  quantity       Decimal                          @db.Decimal(12, 3)
+  balance_before Decimal                          @default(0.000) @db.Decimal(12, 3)
+  balance_after  Decimal                          @default(0.000) @db.Decimal(12, 3)
+  reference_type String?                          @db.VarChar(30)
+  reference_id   Int?
+  reference_no   String?                          @db.VarChar(50)
+  user_id        Int?
+  user_name      String?                          @db.VarChar(100)
+  notes          String?                          @db.VarChar(255)
+  created_at     DateTime                         @default(now()) @db.DateTime(0)
+
+  @@index([created_at], map: "idx_date")
+  @@index([location_id], map: "idx_location")
+  @@index([product_id], map: "idx_product")
+  @@index([movement_type], map: "idx_type")
+}
+
+model stock_take_items {
+  id            Int       @id @default(autoincrement())
+  stock_take_id Int
+  product_id    Int
+  product_name  String?   @db.VarChar(200)
+  item_code     String?   @db.VarChar(50)
+  unit          String?   @default("PCS") @db.VarChar(20)
+  system_qty    Decimal   @default(0.000) @db.Decimal(10, 3)
+  counted_qty   Decimal?  @db.Decimal(10, 3)
+  variance      Decimal?  @db.Decimal(10, 3)
+  saved_at      DateTime? @db.DateTime(0)
+
+  @@unique([stock_take_id, product_id], map: "uk_take_product")
+  @@index([product_id], map: "idx_product_id")
+  @@index([stock_take_id], map: "idx_stock_take_id")
+}
+
+model stock_takes {
+  id                Int                @id @default(autoincrement())
+  take_no           String             @unique(map: "uk_take_no") @db.VarChar(20)
+  location_id       Int
+  location_name     String?            @db.VarChar(100)
+  status            stock_takes_status @default(in_progress)
+  notes             String?            @db.Text
+  started_by        Int?
+  started_by_name   String?            @db.VarChar(100)
+  finalized_by      Int?
+  finalized_by_name String?            @db.VarChar(100)
+  started_at        DateTime           @default(now()) @db.DateTime(0)
+  finalized_at      DateTime?          @db.DateTime(0)
+  total_items       Int?               @default(0)
+  counted_items     Int?               @default(0)
+  adjust_stock      Boolean?           @default(false)
+
+  @@index([location_id], map: "idx_location_id")
+  @@index([status], map: "idx_status")
+}
+
+model stock_transfer_items {
+  id            Int      @id @default(autoincrement())
+  transfer_id   Int
+  product_id    Int
+  product_name  String   @db.VarChar(150)
+  hsn_code      String?  @db.VarChar(20)
+  unit          String?  @default("PCS") @db.VarChar(20)
+  requested_qty Decimal  @default(0.000) @db.Decimal(12, 3)
+  approved_qty  Decimal? @db.Decimal(12, 3)
+  rate          Decimal  @default(0.00) @db.Decimal(12, 2)
+
+  @@index([product_id], map: "idx_product_id")
+  @@index([transfer_id], map: "idx_transfer_id")
+}
+
+model stock_transfers {
+  id                Int                           @id @default(autoincrement())
+  transfer_no       String                        @unique(map: "transfer_no") @db.VarChar(30)
+  from_location_id  Int
+  to_location_id    Int
+  transfer_type     stock_transfers_transfer_type @default(warehouse_to_outlet)
+  status            stock_transfers_status        @default(draft)
+  reason            String?                       @db.VarChar(255)
+  notes             String?                       @db.Text
+  requested_by      Int
+  requested_by_name String                        @db.VarChar(100)
+  requested_at      DateTime                      @default(now()) @db.DateTime(0)
+  approved_by       Int?
+  approved_by_name  String?                       @db.VarChar(100)
+  approved_at       DateTime?                     @db.DateTime(0)
+  rejected_by       Int?
+  rejected_by_name  String?                       @db.VarChar(100)
+  rejected_at       DateTime?                     @db.DateTime(0)
+  rejection_reason  String?                       @db.VarChar(255)
+  completed_by      Int?
+  completed_by_name String?                       @db.VarChar(100)
+  completed_at      DateTime?                     @db.DateTime(0)
+  created_at        DateTime                      @default(now()) @db.DateTime(0)
+
+  @@index([from_location_id], map: "idx_from_loc")
+  @@index([requested_by], map: "idx_requested")
+  @@index([status], map: "idx_status")
+  @@index([to_location_id], map: "idx_to_loc")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model supplier_documents {
+  id          Int       @id @default(autoincrement())
+  supplier_id Int
+  doc_type    String    @db.VarChar(50)
+  file_path   String?   @db.VarChar(255)
+  expiry_date DateTime? @db.Date
+  notes       String?   @db.VarChar(255)
+  uploaded_by Int?
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+
+  @@index([supplier_id], map: "idx_supplier_id")
+}
+
+model supplier_ledger {
+  id          Int                      @id @default(autoincrement())
+  supplier_id Int
+  txn_date    DateTime                 @db.Date
+  txn_type    supplier_ledger_txn_type
+  ref_type    String?                  @db.VarChar(50)
+  ref_id      Int?
+  ref_no      String?                  @db.VarChar(50)
+  narration   String?                  @db.VarChar(255)
+  debit       Decimal                  @default(0.00) @db.Decimal(12, 2)
+  credit      Decimal                  @default(0.00) @db.Decimal(12, 2)
+  balance     Decimal                  @default(0.00) @db.Decimal(12, 2)
+  created_at  DateTime                 @default(now()) @db.DateTime(0)
+
+  @@index([txn_date], map: "idx_date")
+  @@index([supplier_id], map: "idx_supplier")
+  @@index([txn_type], map: "idx_txn_type")
+}
+
+model supplier_products {
+  id           Int       @id @default(autoincrement())
+  supplier_id  Int
+  product_id   Int
+  supplier_sku String?   @db.VarChar(50)
+  cost_price   Decimal?  @default(0.00) @db.Decimal(12, 2)
+  moq          Int?      @default(1)
+  lead_days    Int?      @default(2)
+  is_primary   Boolean?  @default(false)
+  created_at   DateTime? @default(now()) @db.DateTime(0)
+
+  @@unique([supplier_id, product_id], map: "uq_sup_prod")
+  @@index([product_id], map: "idx_product_id")
+}
+
+model supplier_visit_logs {
+  id          Int       @id @default(autoincrement())
+  supplier_id Int
+  buyer_id    Int?
+  visit_date  DateTime  @db.Date
+  notes       String?   @db.Text
+  po_value    Decimal?  @default(0.00) @db.Decimal(12, 2)
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+
+  @@index([supplier_id], map: "idx_supplier_id")
+  @@index([visit_date], map: "idx_visit_date")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model supplier_visit_schedules {
+  id              Int                                     @id @default(autoincrement())
+  supplier_id     Int                                     @unique(map: "uq_supplier_id")
+  schedule_type   supplier_visit_schedules_schedule_type?
+  interval_days   Int?
+  weekdays        String?                                 @db.VarChar(50)
+  month_dates     String?                                 @db.VarChar(100)
+  assigned_buyer  Int?
+  last_visit_date DateTime?                               @db.Date
+  next_visit_date DateTime?                               @db.Date
+  notes           String?                                 @db.Text
+  created_at      DateTime?                               @default(now()) @db.DateTime(0)
+  updated_at      DateTime?                               @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model suppliers {
+  id                 Int                @id @default(autoincrement())
+  name               String             @db.VarChar(150)
+  contact_name       String?            @db.VarChar(100)
+  phone              String             @db.VarChar(15)
+  email              String?            @db.VarChar(100)
+  address            String?            @db.Text
+  city               String?            @db.VarChar(80)
+  state              String?            @default("Delhi") @db.VarChar(80)
+  pincode            String?            @db.VarChar(10)
+  gst_number         String?            @db.VarChar(20)
+  pan_number         String?            @db.VarChar(12)
+  status             Boolean            @default(true)
+  created_at         DateTime           @default(now()) @db.DateTime(0)
+  updated_at         DateTime           @default(now()) @db.DateTime(0)
+  opening_balance    Decimal            @default(0.00) @db.Decimal(12, 2)
+  supplier_code      String?            @db.VarChar(30)
+  company_name       String?            @db.VarChar(150)
+  whatsapp           String?            @db.VarChar(15)
+  website            String?            @db.VarChar(100)
+  country            String?            @default("India") @db.VarChar(60)
+  credit_days        Int?               @default(0)
+  credit_limit       Decimal?           @default(0.00) @db.Decimal(12, 2)
+  payment_terms      String?            @db.VarChar(100)
+  currency           String?            @default("INR") @db.VarChar(10)
+  is_preferred       Int?               @default(0) @db.TinyInt
+  default_tax_pct    Decimal?           @default(18.00) @db.Decimal(5, 2)
+  default_discount   Decimal?           @default(0.00) @db.Decimal(5, 2)
+  freight_applicable Int?               @default(0) @db.TinyInt
+  moq                Int?               @default(1)
+  pack_size          Int?               @default(1)
+  lead_time_days     Int?               @default(2)
+  delivery_days      Int?               @default(1)
+  order_cutoff_time  DateTime?          @db.Time(0)
+  portal_username    String?            @db.VarChar(60)
+  portal_password    String?            @db.VarChar(200)
+  portal_active      Int?               @default(0) @db.TinyInt
+  vendor_score       Decimal?           @default(0.00) @db.Decimal(5, 2)
+  vendor_tier        String?            @default("bronze") @db.VarChar(20)
+  notes              String?            @db.Text
+  purchase_returns   purchase_returns[]
+  purchases          purchases[]
+
+  @@index([gst_number], map: "idx_gst")
+  @@index([is_preferred], map: "idx_is_preferred")
+  @@index([portal_username], map: "idx_portal_username")
+  @@index([status], map: "idx_status")
+  @@index([vendor_tier], map: "idx_vendor_tier")
+}
+
+model user_permissions {
+  id                  Int     @id @default(autoincrement())
+  user_id             Int     @unique(map: "idx_up_user")
+  can_edit_bill       Boolean @default(false)
+  can_delete_estimate Boolean @default(false)
+  can_view_reports    Boolean @default(true)
+  can_import_excel    Boolean @default(false)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model users {
+  id                  Int                  @id @default(autoincrement())
+  name                String               @db.VarChar(100)
+  username            String               @unique(map: "username") @db.VarChar(50)
+  email               String               @unique(map: "email") @db.VarChar(100)
+  password            String               @db.VarChar(255)
+  role                String               @default("cashier") @db.VarChar(50)
+  location_id         Int?
+  can_switch_location Boolean              @default(false)
+  status              Boolean              @default(true)
+  last_login          DateTime?            @db.DateTime(0)
+  created_at          DateTime             @default(now()) @db.DateTime(0)
+  updated_at          DateTime             @default(now()) @db.DateTime(0)
+  invoices            invoices[]
+  module_permissions  module_permissions[]
+  payments            payments[]
+  purchase_returns    purchase_returns[]
+  purchases           purchases[]
+}
+
+model vendor_messages {
+  id          Int                         @id @default(autoincrement())
+  supplier_id Int
+  po_id       Int?
+  rfq_id      Int?
+  sender_type vendor_messages_sender_type
+  sender_id   Int?
+  message     String                      @db.Text
+  attachment  String?                     @db.VarChar(255)
+  is_read     Int?                        @default(0) @db.TinyInt
+  created_at  DateTime?                   @default(now()) @db.DateTime(0)
+
+  @@index([is_read], map: "idx_is_read")
+  @@index([po_id], map: "idx_po_id")
+  @@index([supplier_id], map: "idx_supplier_id")
+}
+
+model vendor_performance {
+  id                   Int                      @id @default(autoincrement())
+  supplier_id          Int                      @unique(map: "uq_supplier_id")
+  total_orders         Int?                     @default(0)
+  ontime_delivery_pct  Decimal?                 @default(0.00) @db.Decimal(5, 2)
+  fill_rate_pct        Decimal?                 @default(0.00) @db.Decimal(5, 2)
+  avg_delivery_days    Decimal?                 @default(0.0) @db.Decimal(5, 1)
+  quality_rating       Decimal?                 @default(5.0) @db.Decimal(3, 1)
+  return_pct           Decimal?                 @default(0.00) @db.Decimal(5, 2)
+  price_stability_pct  Decimal?                 @default(100.00) @db.Decimal(5, 2)
+  order_acceptance_pct Decimal?                 @default(100.00) @db.Decimal(5, 2)
+  invoice_accuracy_pct Decimal?                 @default(100.00) @db.Decimal(5, 2)
+  overall_score        Decimal?                 @default(0.00) @db.Decimal(5, 2)
+  tier                 vendor_performance_tier? @default(bronze)
+  last_computed        DateTime?                @db.DateTime(0)
+}
+
+model army_companymaster {
+  id                   Int                    @id @default(autoincrement())
+  company_name         String                 @db.VarChar(150)
+  logo_path            String?                @db.VarChar(255)
+  address              String?                @db.Text
+  gst_number           String?                @db.VarChar(20)
+  pan_number           String?                @db.VarChar(20)
+  phone                String?                @db.VarChar(20)
+  mobile               String?                @db.VarChar(20)
+  email                String?                @db.VarChar(100)
+  website              String?                @db.VarChar(150)
+  bank_name            String?                @db.VarChar(150)
+  account_number       String?                @db.VarChar(50)
+  ifsc_code            String?                @db.VarChar(20)
+  branch               String?                @db.VarChar(150)
+  signatory_name       String?                @db.VarChar(150)
+  signature_path       String?                @db.VarChar(255)
+  stamp_path           String?                @db.VarChar(255)
+  is_active            Boolean                @default(true)
+  created_at           DateTime               @default(now()) @db.DateTime(0)
+  updated_at           DateTime               @default(now()) @db.DateTime(0)
+  army_quotation       army_quotation[]
+  army_termsconditions army_termsconditions[]
+
+  @@index([is_active], map: "idx_is_active")
+}
+
+model army_emailhistory {
+  id             Int            @id @default(autoincrement())
+  quotation_id   Int
+  to_email       String         @db.VarChar(255)
+  cc_email       String?        @db.VarChar(255)
+  bcc_email      String?        @db.VarChar(255)
+  subject        String?        @db.VarChar(255)
+  message        String?        @db.Text
+  status         String         @db.VarChar(20)
+  error_message  String?        @db.VarChar(255)
+  sent_by        Int?
+  sent_at        DateTime       @default(now()) @db.DateTime(0)
+  army_quotation army_quotation @relation(fields: [quotation_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_army_email_quotation")
+
+  @@index([quotation_id], map: "idx_quotation_id")
+}
+
+model army_quotation {
+  id                    Int                     @id @default(autoincrement())
+  quotation_no          String                  @unique(map: "uk_quotation_no") @db.VarChar(30)
+  quotation_date        DateTime                @db.Date
+  valid_till            DateTime?               @db.Date
+  company_id            Int
+  customer_name         String                  @db.VarChar(150)
+  contact_person        String?                 @db.VarChar(150)
+  address               String?                 @db.Text
+  mobile                String?                 @db.VarChar(20)
+  email                 String?                 @db.VarChar(100)
+  subject               String?                 @db.VarChar(255)
+  reference             String?                 @db.VarChar(150)
+  prepared_by           String?                 @db.VarChar(150)
+  sub_total             Decimal                 @default(0.00) @db.Decimal(12, 2)
+  gst_percent           Decimal                 @default(18.00) @db.Decimal(5, 2)
+  gst_amount            Decimal                 @default(0.00) @db.Decimal(12, 2)
+  grand_total           Decimal                 @default(0.00) @db.Decimal(12, 2)
+  terms_text            String?                 @db.Text
+  status                String                  @default("draft") @db.VarChar(20)
+  created_by            Int?
+  created_at            DateTime                @default(now()) @db.DateTime(0)
+  updated_at            DateTime                @default(now()) @db.DateTime(0)
+  army_emailhistory     army_emailhistory[]
+  army_companymaster    army_companymaster      @relation(fields: [company_id], references: [id], onUpdate: Restrict, map: "fk_army_quotation_company")
+  army_quotationdetails army_quotationdetails[]
+
+  @@index([company_id], map: "idx_company_id")
+  @@index([customer_name], map: "idx_customer_name")
+  @@index([mobile], map: "idx_mobile")
+  @@index([quotation_date], map: "idx_quotation_date")
+  @@index([status], map: "idx_status")
+}
+
+model army_quotationdetails {
+  id             Int            @id @default(autoincrement())
+  quotation_id   Int
+  sr_no          Int
+  particulars    String         @db.VarChar(255)
+  qty            Decimal        @db.Decimal(10, 2)
+  unit           String         @default("Nos") @db.VarChar(20)
+  rate           Decimal        @db.Decimal(12, 2)
+  amount         Decimal        @db.Decimal(12, 2)
+  army_quotation army_quotation @relation(fields: [quotation_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_army_details_quotation")
+
+  @@index([quotation_id], map: "idx_quotation_id")
+}
+
+model army_quotationsequence {
+  seq_year Int @id
+  last_seq Int @default(0)
+}
+
+model army_termsconditions {
+  id                 Int                 @id @default(autoincrement())
+  company_id         Int?
+  terms_text         String              @db.Text
+  is_default         Boolean             @default(false)
+  created_at         DateTime            @default(now()) @db.DateTime(0)
+  army_companymaster army_companymaster? @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_army_terms_company")
+
+  @@index([company_id], map: "idx_company_id")
+}
+
+model departments {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(100)
+  code       String?  @db.VarChar(20)
+  status     Boolean  @default(true)
+  created_at DateTime @default(now()) @db.DateTime(0)
+}
+
+model emergency_day_close_log {
+  id                    Int      @id @default(autoincrement())
+  business_date         DateTime @db.Date
+  business_day_id       Int?
+  closed_by             Int
+  closed_by_name        String?  @db.VarChar(100)
+  closed_at             DateTime @db.DateTime(0)
+  ip_address            String?  @db.VarChar(45)
+  machine_name          String?  @db.VarChar(150)
+  active_counters_count Int      @default(0)
+  counter_names         String?  @db.Text
+  reason                String   @db.VarChar(100)
+  remarks               String?  @db.Text
+  sales_amount          Decimal  @default(0.00) @db.Decimal(15, 2)
+  backup_status         String?  @db.VarChar(255)
+  created_at            DateTime @default(now()) @db.DateTime(0)
+
+  @@index([business_date], map: "idx_business_date")
+  @@index([closed_by], map: "idx_closed_by")
+}
+
+model form_permissions {
+  id         Int     @id @default(autoincrement())
+  user_id    Int
+  form_key   String  @db.VarChar(80)
+  is_enabled Boolean @default(true)
+
+  @@unique([user_id, form_key], map: "uq_user_form")
+  @@index([user_id], map: "idx_user_id")
+}
+
+model groups {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(100)
+  code       String?  @db.VarChar(20)
+  status     Boolean  @default(true)
+  created_at DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model inventory_analytics {
+  id                   Int                                 @id @default(autoincrement())
+  product_id           Int
+  location_id          Int?
+  period_days          Int                                 @default(30)
+  total_sold_qty       Decimal                             @default(0.000) @db.Decimal(12, 3)
+  total_sold_value     Decimal                             @default(0.00) @db.Decimal(14, 2)
+  avg_daily_sales      Decimal                             @default(0.000) @db.Decimal(10, 3)
+  days_since_last_sale Int?
+  turnover_ratio       Decimal?                            @db.Decimal(8, 2)
+  abc_class            String?                             @db.Char(1)
+  xyz_class            String?                             @db.Char(1)
+  movement_class       inventory_analytics_movement_class? @default(non_moving)
+  computed_at          DateTime                            @default(now()) @db.DateTime(0)
+
+  @@unique([product_id, location_id, period_days], map: "uq_product_location_period")
+  @@index([abc_class], map: "idx_abc")
+  @@index([movement_class], map: "idx_movement")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model plu_master {
+  id            Int       @id @default(autoincrement())
+  plu_code      String    @unique(map: "plu_code") @db.VarChar(20)
+  product_id    Int
+  barcode       String?   @db.VarChar(50)
+  batch_no      String?   @db.VarChar(50)
+  mrp           Decimal   @default(0.00) @db.Decimal(10, 2)
+  purchase_rate Decimal   @default(0.00) @db.Decimal(10, 2)
+  selling_rate  Decimal   @default(0.00) @db.Decimal(10, 2)
+  landing_cost  Decimal   @default(0.00) @db.Decimal(10, 2)
+  gst_percent   Decimal   @default(0.00) @db.Decimal(5, 2)
+  mfg_date      DateTime? @db.Date
+  expiry_date   DateTime? @db.Date
+  supplier_id   Int?
+  location_id   Int?
+  stock_qty     Decimal   @default(0.000) @db.Decimal(12, 3)
+  reserved_qty  Decimal   @default(0.000) @db.Decimal(12, 3)
+  status        Boolean   @default(true)
+  created_at    DateTime  @default(now()) @db.DateTime(0)
+  updated_at    DateTime  @default(now()) @db.DateTime(0)
+
+  @@index([barcode], map: "idx_barcode")
+  @@index([location_id], map: "idx_location")
+  @@index([barcode, status], map: "idx_plu_barcode_status")
+  @@index([product_id, status], map: "idx_plu_product_status")
+  @@index([product_id], map: "idx_product")
+  @@index([status], map: "idx_status")
+}
+
+model plu_sequence {
+  product_id Int @id
+  last_seq   Int @default(1)
+}
+
+model product_tag_links {
+  product_id Int
+  tag_id     Int
+
+  @@id([product_id, tag_id])
+  @@index([product_id], map: "idx_product_id")
+  @@index([tag_id], map: "idx_tag_id")
+}
+
+model product_tags_master {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(100)
+  color      String?  @default("#6c757d") @db.VarChar(20)
+  status     Boolean  @default(true)
+  created_at DateTime @default(now()) @db.DateTime(0)
+}
+
+model sub_categories {
+  id          Int      @id @default(autoincrement())
+  category_id Int
+  name        String   @db.VarChar(100)
+  code        String?  @db.VarChar(20)
+  status      Boolean  @default(true)
+  created_at  DateTime @default(now()) @db.DateTime(0)
+
+  @@index([category_id], map: "idx_category")
+}
+
+enum entry_drafts_entry_type {
+  purchase
+  grn
+  grn_direct
+}
+
+enum customer_wallet_transactions_transaction_type {
+  credit
+  debit
+}
+
+enum invoice_payment_splits_payment_mode {
+  cash
+  upi
+  neft
+  cheque
+  card
+  credit
+}
+
+enum offline_sync_queue_queue_type {
+  invoice
+  customer
+}
+
+enum payments_type {
+  received
+  paid
+}
+
+enum schemes_scheme_type {
+  brand
+  category
+  product
+}
+
+enum stock_ledger_txn_type {
+  purchase
+  sale
+  sale_return
+  purchase_return
+  adjustment
+  estimate_close
+  opening
+}
+
+enum supplier_visit_schedules_schedule_type {
+  daily
+  interval
+  weekly
+  monthly_dates
+}
+
+enum invoices_invoice_type {
+  retail
+  wholesale
+}
+
+enum invoice_bill_discounts_discount_type {
+  percent
+  fixed
+}
+
+enum locations_type {
+  warehouse
+  outlet
+}
+
+enum order_requests_status {
+  pending
+  confirmed
+  converted
+  cancelled
+}
+
+enum payments_ref_type {
+  invoice
+  purchase
+}
+
+enum product_barcodes_unit_type {
+  PCS
+  CRT
+}
+
+enum rfq_status {
+  draft
+  sent
+  received
+  compared
+  closed
+  cancelled
+}
+
+enum scheme_master_apply_on {
+  item
+  brand
+  category
+  invoice
+  mix_match
+  combo
+  brand_category
+}
+
+enum invoice_payment_splits_card_type {
+  debit
+  credit
+}
+
+enum purchase_approvals_action {
+  pending
+  approved
+  rejected
+  forwarded
+}
+
+enum purchase_orders_status {
+  draft
+  submitted
+  pending_approval
+  approved
+  vendor_confirmed
+  dispatched
+  in_transit
+  received
+  invoiced
+  paid
+  rejected
+  cancelled
+}
+
+enum rfq_suppliers_status {
+  pending
+  sent
+  quoted
+  declined
+}
+
+enum stock_takes_status {
+  in_progress
+  completed
+  cancelled
+}
+
+enum stock_transfers_transfer_type {
+  warehouse_to_outlet
+  outlet_to_outlet
+  outlet_to_warehouse
+}
+
+enum vendor_messages_sender_type {
+  buyer
+  supplier
+}
+
+enum offline_sync_queue_status {
+  pending
+  syncing
+  synced
+  failed
+}
+
+enum refunds_refund_type {
+  full
+  partial
+}
+
+enum scheme_free_items_free_uom {
+  pcs
+  crt
+}
+
+enum scheme_item_map_map_type {
+  trigger
+  exclude
+}
+
+enum stock_movement_log_movement_type {
+  purchase_in
+  sale_out
+  transfer_in
+  transfer_out
+  adjustment_in
+  adjustment_out
+  refund_in
+  opening_stock
+}
+
+enum stock_transfers_status {
+  draft
+  pending
+  approved
+  rejected
+  completed
+}
+
+enum business_days_status {
+  open
+  closed
+}
+
+enum payments_party_type {
+  customer
+  supplier
+}
+
+enum cashier_shifts_status {
+  open
+  closed
+}
+
+enum device_authorizations_status {
+  pending
+  approved
+  rejected
+}
+
+enum offline_sync_log_status {
+  running
+  completed
+  failed
+  partial
+}
+
+enum product_reviews_status {
+  approved
+  pending
+  rejected
+}
+
+enum refunds_refund_mode {
+  cash
+  upi
+  neft
+  cheque
+  card
+  credit_note
+}
+
+enum customers_type {
+  retail
+  wholesale
+}
+
+enum schemes_applicable_customers {
+  all
+  selected
+}
+
+enum refunds_status {
+  processed
+  pending
+}
+
+enum scheme_master_applicable_parties {
+  all
+  selected
+}
+
+enum entry_drafts_status {
+  in_progress
+  completed
+  abandoned
+}
+
+enum estimates_status {
+  pending
+  converted
+  closed_cash
+  cancelled
+}
+
+enum grn_status {
+  pending
+  accepted
+  rejected
+}
+
+enum purchases_payment_mode {
+  cash
+  cheque
+  neft
+  upi
+  credit
+}
+
+enum scheme_application_log_benefit_type {
+  free_item
+  discount_percent
+  discount_value
+  credit_note
+}
+
+enum scheme_master_min_qty_uom {
+  pcs
+  crt
+}
+
+enum vendor_performance_tier {
+  gold
+  silver
+  bronze
+  review
+}
+
+enum purchases_status {
+  draft
+  received
+  partial
+  pending
+  returned
+}
+
+enum invoices_bill_discount_type {
+  none
+  percent
+  fixed
+}
+
+enum products_unit {
+  PCS
+  CRT
+  KG
+  LTR
+  PKT
+  BOX
+}
+
+enum sales_returns_status {
+  draft
+  confirmed
+  cancelled
+}
+
+enum scheme_master_target_period {
+  monthly
+  quarterly
+  yearly
+  custom
+}
+
+enum scheme_master_credit_note_timing {
+  immediate
+  end_of_month
+  end_of_quarter
+}
+
+enum invoices_payment_mode {
+  cash
+  cheque
+  neft
+  upi
+  credit
+  card
+  split
+}
+
+enum invoices_status {
+  draft
+  unpaid
+  paid
+  partial
+  cancelled
+}
+
+enum supplier_ledger_txn_type {
+  purchase
+  payment
+  purchase_return
+  debit_note
+  credit_note
+  advance
+  adjustment
+}
+
+enum inventory_analytics_movement_class {
+  fast
+  slow
+  dead
+  non_moving
+}

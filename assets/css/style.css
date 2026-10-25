@@ -1,0 +1,26 @@
+/* Ezee Needs ERP — Main Stylesheet */
+body { background: #f0f2f5; font-size: .9rem; }
+.navbar-brand { letter-spacing: .02em; }
+.card { border-radius: 8px; }
+.card-header { font-size: .85rem; }
+.table th { font-size: .8rem; font-weight: 600; white-space: nowrap; }
+.table td { vertical-align: middle; }
+.badge { font-size: .72rem; }
+.btn-xs { padding: .1rem .4rem; font-size: .75rem; }
+.footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #fff; border-top: 1px solid #dee2e6;
+    text-align: center; padding: 5px;
+    font-size: .75rem; color: #888; z-index: 100;
+}
+/* Flash alerts */
+.alert { font-size: .87rem; }
+/* Forms */
+label { font-size: .83rem; font-weight: 600; color: #495057; }
+.form-control:focus { box-shadow: none; border-color: #343a40; }
+/* Print */
+@media print {
+    .navbar, .footer-bar, .no-print, .btn { display: none !important; }
+    .container-fluid { margin: 0 !important; padding: 0 !important; }
+    .card { box-shadow: none !important; border: 1px solid #ddd !important; }
+}

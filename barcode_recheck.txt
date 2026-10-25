@@ -1,0 +1,6 @@
+--- product_barcodes ---
+--- product 5835 ---
+id	name	mrp	selling_price	purchase_price	status
+5835	Haldiram Summer Coolers Rose Syrup750ml	150.00	150.00	129.68	1
+--- plu_master for 5835 ---
+--- plu_master for this barcode directly ---

@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS form_permissions (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  form_key varchar(80) NOT NULL,
+  is_enabled tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_user_form (user_id, form_key),
+  KEY idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

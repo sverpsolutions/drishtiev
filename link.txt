@@ -1,0 +1,44 @@
+🌐 1. Public E-Commerce Website (Storefront)
+
+The public online shopping website for customers to browse garments, categories, add to cart, and order online:
+
+Home Page / Storefront:
+👉 http://localhost/suvasanclothes.com/
+Shop / Product Catalog:
+👉 http://localhost/suvasanclothes.com/shop
+Shopping Cart:
+👉 http://localhost/suvasanclothes.com/cart
+Checkout Page:
+👉 http://localhost/suvasanclothes.com/checkout
+Track Order:
+👉 http://localhost/suvasanclothes.com/track
+Customer Account Login / Register:
+👉 http://localhost/suvasanclothes.com/account/login
+💼 2. Online Store Admin (WebAdmin)
+
+To manage online webstore banners, featured products, coupons, and orders:
+
+Web Store Admin Panel:
+👉 http://localhost/suvasanclothes.com/webadmin
+🖥️ 3. Garment ERP & POS Back-Office (Main System)
+
+The main ERP back-office for billing, purchases, GRN, garment matrices, stock reports, and GST filing:
+
+ERP Login:
+👉 http://localhost/suvasanclothes.com/login
+Dashboard:
+👉 http://localhost/suvasanclothes.com/dashboard
+Garment Matrix Master:
+👉 http://localhost/suvasanclothes.com/garments
+POS / Retail Billing:
+👉 http://localhost/suvasanclothes.com/billing
+Wholesale Billing:
+👉 http://localhost/suvasanclothes.com/wholesale_billing
+Purchase & GRN:
+👉 http://localhost/suvasanclothes.com/purchases
+Stock & Inventory Reports:
+👉 http://localhost/suvasanclothes.com/reports/stock
+GSTR-3B Tax Summary:
+👉 http://localhost/suvasanclothes.com/reports/gstr3b
+Mobile Owner App:
+👉 http://localhost/suvasanclothes.com/owner

@@ -1,0 +1,47 @@
+Options -Indexes
+Options +FollowSymLinks
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # No RewriteBase — Apache auto-derives from .htaccess directory
+    # Local XAMPP: /DRISHTIEV/  |  Hostinger docroot: /
+
+    # Block access to hidden files
+    RewriteRule ^\.                 - [F]
+
+    # Block DB dumps, private docs and dev scripts from the web
+    # (root-level files only; index.php, robots.txt, manifests stay public)
+    RewriteCond %{REQUEST_URI} !/(index\.php|robots\.txt|manifest[^/]*\.json)$ [NC]
+    RewriteRule ^[^/]+\.(sql|py|txt|md|docx|xlsx|zip|ps1|json|prn|pdf|jpeg|php)$ - [F,NC]
+    RewriteRule ^(backups|logo|sql|scratch|customer_portal_new)/ - [F,L]
+
+    # Block direct access to application/system folders
+    RewriteRule ^(application|system|vendor)/ - [F,L]
+
+    # Allow static files through
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 /index.php
+</IfModule>
+
+# PHP settings for Hostinger
+<IfModule mod_php8.c>
+    php_value upload_max_filesize 32M
+    php_value post_max_size 32M
+    php_value max_execution_time 120
+    php_value memory_limit 256M
+    php_flag display_errors Off
+    php_flag log_errors On
+</IfModule>
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 32M
+    php_value post_max_size 32M
+    php_value max_execution_time 120
+    php_value memory_limit 256M
+    php_flag display_errors Off
+    php_flag log_errors On
+</IfModule>

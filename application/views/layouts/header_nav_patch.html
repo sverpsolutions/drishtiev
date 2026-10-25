@@ -1,0 +1,27 @@
+<!-- FILE: application/views/layouts/header.php  (UPDATED) -->
+<!-- Change: added "HSN Master" link in Masters dropdown -->
+<!-- Find this block in your existing header.php and add the marked line: -->
+
+<!--
+    In the Masters dropdown, after the "Categories Master" divider, add:
+    
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item font-weight-bold text-primary" href="<?= base_url('hsn') ?>">&#9654; HSN Master</a>
+    
+    Full dropdown should look like:
+-->
+
+<div class="dropdown-menu shadow-sm border-0">
+    <a class="dropdown-item" href="<?= base_url('suppliers') ?>">Suppliers</a>
+    <a class="dropdown-item" href="<?= base_url('customers') ?>">Customers</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="<?= base_url('masters/brands') ?>">Brands Master</a>
+    <a class="dropdown-item" href="<?= base_url('masters/categories') ?>">Categories Master</a>
+    <a class="dropdown-item font-weight-bold text-primary" href="<?= base_url('hsn') ?>">&#9654; HSN Master</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item font-weight-bold text-success" href="<?= base_url('schemes') ?>">🎯 Target Schemes engine</a>
+</div>
+
+<!-- Note: This file shows only the changed dropdown section.
+     Copy this dropdown-menu div into your full header.php,
+     replacing the existing Masters dropdown-menu. -->
